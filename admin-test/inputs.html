@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FA - Inputs</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <!---CSS Files-->
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!---jQuery Files-->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/inputs.js"></script>
+  <script src="js/minicolors.js"></script>
+  <script src="js/cleditor.js"></script>
+  <script src="js/functions.js"></script>
+</head>
+<body>
+
+  <div id="wrapper">
+
+    <!--USER PANEL-->
+
+    <div id="usr-panel">
+      <div class="av-overlay"></div>
+      <img src="img/avatars/nick.jpg" id="usr-av">
+      <div id="usr-info">
+        <span id="usr-name">Nick Halden</span><span id="usr-role">Administrator</span>
+        <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
+      </div>
+    </div>
+
+    <!--NAVIGATION-->
+
+    <div id="nav">
+      <ul>
+        <li><a href="dashboard.html"></a><span class="icon">H</span>Dashboard</li>
+        <li><a href="ui.html"></a><span class="icon">&lt;</span>UI Elements</li>
+        <li class="active"><span class="icon">F</span>Inputs</li>
+        <li><a href="analytics.html"></a><span class="icon">G</span>Analytics</li>
+        <li><a href="extras.html"></a><span class="icon">S</span>Extras</li>
+        <li><a href="grid.html"></a><span class="icon">N</span>Grid</li>
+        <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
+        <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
+      </ul>
+      <br class="clear">
+    </div>
+
+    <div id="content" class="inputs-page"><!--BEGIN MAIN CONTENT-->
+
+      <ul class="box nav-hz">
+        <li class="active"><a href="#buttons" class="button">Buttons</a></li>
+        <li><a href="#forms" class="button">Forms and wizard</a></li>
+        <li><a href="#inputs" class="button">Input types</a></li>
+      </ul>
+
+      <!--BUTTONS-->
+
+      <div id="buttons" class="full first-nav">
+        <div class="box btn-box g16">
+          <button class="btn-s orange">Small Orange Button</button>
+          <button class="btn-s green">Small Green Button</button>
+          <button class="btn-s red">Small Red Button</button>
+          <button class="btn-s purple">Small Purple Button</button>
+          <button class="btn-s blue">Small Blue Button</button>
+          <button class="btn-s black">Small Black Button</button>
+          <button class="btn-s">Small Button</button>
+        </div>
+        <div class="box btn-box g16">
+          <button class="orange">Normal Orange Button</button>
+          <button class="green">Normal Green Button</button>
+          <button class="red">Normal Red Button</button>
+          <button class="purple">Normal Purple Button</button>
+          <button class="blue">Normal Blue Button</button>
+          <button class="black">Normal Black Button</button>
+          <button>Normal Button</button>
+        </div>
+        <div class="box btn-box g16">
+          <button class="btn-m orange">Medium Orange Button</button>
+          <button class="btn-m green">Medium Green Button</button>
+          <button class="btn-m red">Medium Red Button</button>
+          <button class="btn-m purple">Medium Purple Button</button>
+          <button class="btn-m blue">Medium Blue Button</button>
+          <button class="btn-m black">Medium Black Button</button>
+          <button class="btn-m">Medium Button</button>
+        </div>
+        <div class="box btn-box g16">
+          <button disabled class="orange">Disabled Orange Button</button>
+          <button disabled class="green">Disabled Green Button</button>
+          <button disabled class="red">Disabled Red Button</button>
+          <button disabled class="purple">Disabled Purple Button</button>
+          <button disabled class="blue">Disabled Blue Button</button>
+          <button disabled class="black">Disabled Black Button</button>
+          <button disabled>Disabled Button</button>
+        </div>
+        <div class="box btn-box g16">
+          <button class="btn-l orange">Overgrown Orange Button</button>
+          <button class="btn-l green">Overgrown Green Button</button>
+          <button class="btn-l red">Overgrown Red Button</button>
+          <button class="btn-l purple">Overgrown Purple Button</button>
+          <button class="btn-l blue">Overgrown Blue Button</button>
+          <button class="btn-l black">Overgrown Black Button</button>
+          <button class="btn-l">Overgrown Button</button>
+        </div>
+        <div class="box btn-box g16">
+          <button class="btn-m orange has-icon-r">
+            <span class="icon">&lt;</span>Orange Button with icon</button>
+          <button class="btn-m green has-icon-r">
+            <span class="icon">4</span>Green Button with icon</button>
+          <button class="btn-m red has-icon">
+            <span class="icon2">X</span>Red Button with icon</button>
+          <button class="btn-m purple has-icon ">
+            <span class="icon">?</span>Purple Button with icon</button>
+          <button class="btn-m blue has-icon">
+            <span class="icon">J</span>Blue Button with icon</button>
+          <button class="btn-m black has-icon">
+            <span class="icon">B</span>Black Button with icon</button>
+          <button class="btn-m has-icon">
+            <span class="icon">U</span>Button with icon</button>
+        </div>
+        <div id="toggles" class="box btn-box g8">
+          <button class="btn-m orange toggle">Orange Toggle Button</button>
+          <button id="star-btn" class="btn-m green toggle has-icon">
+            <span class="icon">6</span>Green Toggle Button with icon</button>
+          <button class="btn-m red toggle">Red Toggle Button</button>
+        </div>
+
+        <div id="tooltips" class="box btn-box g8">
+          <button data-ttip="BOO!" data-ttip-opt="left" class="btn-m orange ttip">Left Tooltip</button>
+          <button data-ttip="Look! A tooltip!" class="btn-m green ttip">Top Tooltip</button>
+          <button data-ttip="What sorcery is this?" data-ttip-opt="bottom" class="btn-m blue ttip">Bottom Tooltip</button>
+          <button data-ttip="Don't hover out, I'll get removed!" data-ttip-opt="right dark" class="btn-m red ttip">Right Tooltip</button>
+        </div>
+
+        <div id="btn-groups" class="box btn-box g16">
+          <div class="btn-group btn-radio">
+            <button class="btn-m no-tg arrow">%</button>
+            <button class="btn-m">1</button>
+            <button class="btn-m">2</button>
+            <button class="btn-m">3</button>
+            <button class="btn-m">4</button>
+            <button class="btn-m">5</button>
+            <button class="btn-m no-tg arrow">(</button>
+          </div>
+
+          <div class="btn-group">
+            <div class="button btn-m black only-icon lh-xxl">+</div>
+            <div class="button btn-m black only-icon lh-xxl">-</div>
+            <div class="button btn-m black only-icon txt-xl">0</div>
+            <div class="button btn-m black only-icon txt-l">8</div>
+            <div class="button btn-m black only-icon txt-xl">N</div>
+            <div class="button btn-m black only-icon">d</div>
+            <div class="button btn-m black only-icon toggle">c</div>
+          </div>
+
+          <div class="btn-group btn-radio">
+            <button class="btn-m">X-box 360</button>
+            <button class="btn-m">Playstation 3</button>
+            <button class="btn-m">Nintendo Wii</button>
+            <button class="btn-m">PC (master race)</button>
+          </div>
+        </div>
+      </div>
+
+      <!--SAMPLE FORM & WIZARD-->
+
+      <div id="forms" class="cont full">
+        <div id="smp-form" class="box row4 g6">
+          <p class="box-ttl">Sample form <span class="box-desc">(with validation)</span></p>
+          <div class="box-body">
+            <form id="sample-form">
+              <div class="drop select required g3">
+                <span class="opt-sel">Prefix</span>
+                <ul>
+                  <li>Mr.</li>
+                  <li>Mrs.</li>
+                  <li>Superman</li>
+                </ul>
+                <span class="arrow">&amp;</span>
+              </div>
+              <input type="text" class="required g5" placeholder="First Name">
+              <input type="text" class="required g5" placeholder="Last Name">
+              <div class="spinner-body g3">
+                <input id="age-inp" class="spinner required number inset full" placeholder="Age">
+              </div>
+
+              <input type="text" class="required email g6" placeholder="E-mail">
+              <input type="password" class="required match g5" data-match="password" placeholder="Password">
+              <input type="password" class="required match g5" data-match="password" placeholder="Password again">
+
+              <input type="text" class="ver-code g3" value="F1AVER85" disabled>
+              <input type="text" class="required g3" data-min="8" placeholder="Verification">
+              <br class="clear">
+
+              <div class="drop select g3">
+                <span class="opt-sel">Card Type</span>
+                <ul>
+                  <li>Visa</li>
+                  <li>Mastercard</li>
+                  <li>Amex</li>
+                </ul>
+                <span class="arrow">&amp;</span>
+              </div>
+              <input type="text" id="card-num" class="cardnum g8" placeholder="Card Number">
+              <input type="text" class="g2" placeholder="CVV">
+              <input type="text" id="exp-inp" class="g3" placeholder="Expiry Date">
+
+              <div class="cont g13">
+                <input type="checkbox" class="chbox required big g3">
+                <span class="label big g13">By checking this box, I am signing a blank check.</span>
+              </div>
+              <button type="submit" class="green btn-m flt-r g3">Submit</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="wizard" class="box nav-box wizard g10 row4 flt-no">
+          <ul class="nav">
+            <li data-nav="#eula" class="sel">EULA <span class="arrow">(</span></li>
+            <li data-nav="#ads">Advertisments <span class="arrow">(</span></li>
+            <li data-nav="#log">Login or Register <span class="arrow">(</span></li>
+          </ul>
+          <div id="wizard-body" class="box-body nav-body updown no-pad">
+            <div id="eula" class="nav-item show scroll">
+              <div class="scroll-cont well full">
+                <h1>End User License Agreement</h1><hr>
+                <p>By reading this binding legal document, you are automatically forfeiting all your human rights, and agree to give us full ownership/custody of all your belongings/relatives, as well as memories, emotions, organs and soul (if applicable).
+                <br><br>
+                As you are reading this binding-for-life deal with the devil (in this context, EvilCorp UNLTD.), you may start to notice vans stopping in your front yard, and possibly men breaking into your house. These men are EvilCorp employees, and are instructed not to harm you unless you refuse to let them take your belongings. Please wait patiently in a corner until they completely empty your house. Then, a company bus will shortly arrive to take you to the mines. 
+                <br><br>
+                EvilCorp would like to remind you that all of our contracts are airtight, so any attempt to sue us is futile, and punishable to the fullest extent of EvilCorp's torture laws. You are strongly advised to silently accept your faith, and not put up any fight.
+                <br><br>
+                Thank you for choosing EvilCorp over our competitors! By helping us create a monopoly, you are helping us give you lower prices!
+                </p>
+              </div>
+            </div>
+            <div id="ads" class="nav-item scroll">
+              <div class="scroll-cont mg-left">
+                <div class="notif green auto no-coll al-c g16">
+                  DOWNLOAD NOW!   CLICK HERE!   DO IT!   I know where you live, I'll cut you!   CLICK. THIS. BUTTON. NOW!!!
+                  <span class="icon alt">6</span>
+                </div>
+                <div class="g8 no-mg-top">
+                  <div class="notif orange auto no-icon no-coll al-c lh-m full">
+                    You want to get rich overnight?<br>
+                    It just happens we are selling the book on that.<br>
+                    Only $9.99 if you buy today!
+                  </div>
+                  <div class="notif auto no-icon no-coll al-c lh-m mg-btm full">
+                    Tired of having water in your pool? Want to swim in money instead?<br>
+                    eForexMarkets is the solution! In a few days you'll make so much money, 
+                    your neighbours will want to kill you out of jealousy!
+                  </div>
+                </div>
+                
+                <div class="notif blue auto no-icon no-coll al-c lh-m g8">
+                  OMG guize I found the cure for virginity!<br>
+                  If anyone wants to know, go to www.1001trojans.com, it's FREE!<br>
+                  <span class="txt-s">Disclaimer: Hidden charges may apply.</span>
+                </div>
+                <div class="notif red auto no-icon no-coll al-c lh-m g8">
+                  Congratulations!<br>
+                  You have been randomly selected to win a free uPhone!<br>
+                  Do you want to claim your prize?
+                </div>
+              </div>
+            </div>
+            <div id="log" class="nav-item">
+              <div class="notif orange auto full">
+                Remember, there is no safer place for your bank account number than right here, at EvilCorp.
+                <span class="icon alt">R</span>
+              </div>
+              <div class="no-mg-top g8">
+                <span class="label txt-m g16 full">Login:</span>
+                <input type="text" class="g16 full" placeholder="Username">
+                <input type="password" class="g16 full" placeholder="Password">
+                <input type="checkbox" class="chbox g2">
+                <span class="label g12">Remeber me</span>
+              </div>
+              <div class="no-mg-top g8 last">
+                <span class="label txt-m g16 full">Register a new account:</span>
+                <input type="text" class="g16 full" placeholder="E-mail">
+                <input type="password" class="g16 full" placeholder="Password">
+                <input type="text" class="g16 full" placeholder="Bank Account Number">
+              </div>
+            </div>
+          </div>
+          <div class="btn-set-btm nav-act">
+            <button class="prev mg-s">Previous</button>
+            <button class="green next mg-s flt-r">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!--DROPS-->
+
+      <div class="box btn-box g16">
+        <div class="drop">
+          <button class="btn-m orange">Dropdown</button>
+          <button class="btn-m orange arrow">&amp;</button>
+          <ul>
+            <li>Say, how's the dropdown business?</li>
+            <li>Oh, it has its ups and downs.</li>
+            <li class="sel">*Ba Dum Tss*</li>
+          </ul>
+        </div>
+        <div class="drop al-r single">
+          <button class="btn-m green">Single button<span class="arrow">&amp;</span></button>
+          <ul>
+            <li>I'm also aligned right</li>
+            <li>Can you see the possibilities!?</li>
+          </ul>
+        </div>
+        <div class="drop drop-u single">
+          <button class="btn-m blue">Dropup<span class="arrow">'</span></button>
+          <ul>
+            <li>I am a gracious, soaring eagle!</li>
+            <li>I should get out of here, though.</li>
+            <li>I think this is Yakuza turf.</li>
+            <li>Yikes...</li>
+          </ul>
+        </div>
+        <div class="drop drop-l drop-u arrow-l">
+          <button class="btn-m red">Drop...Left ?</button>
+          <button class="btn-m red arrow">%</button>
+          <ul>
+            <li>And up too!</li>
+            <li>But I'm shorter than the blue guy.</li>
+          </ul>
+        </div>
+        <div class="drop drop-r">
+          <button class="btn-m purple">Dropright</button>
+          <button class="btn-m purple arrow">(</button>
+          <ul>
+            <li>I need to find better names for these</li>
+            <li>But this one's funny.</li>
+            <li>Try saying it very fast.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!--INPUT TYPES-->
+
+      <div id="inputs" class="box g8">
+        <h2 class="box-ttl">Input types</h2>
+        <div class="box-body form">
+          <span class="label input g4">Basic Text Input</span>
+          <input type="text" class="g12">
+          <span class="label input g4">Basic Password Input</span>
+          <input type="password" class="g12">
+          <span class="label input g4">Placeholder</span>
+          <input type="text" class="g12" placeholder="Firefox treats me badly...">
+          <span class="label input g4">Preset Value</span>
+          <input type="text" class="g12" value="Like a placeholder, but harder to get rid of.">
+          <span class="label input g4">Numbers only</span>
+          <input type="text" class="number g12" placeholder="Put yo' numbers in here">
+
+          <span class="label input g4">Valid</span>
+          <input type="text" class="valid g12" placeholder="Everything seems in order.">
+          <span class="label input g4">Error</span>
+          <input type="text" class="error g12" placeholder="Hold up, there are errors up in here!">
+
+          <span class="label input g4">Text Area</span>
+          <textarea class="g12">You can put anything in me!</textarea>
+
+          <span class="label input g4">Read-only</span>
+          <input type="text" class="g12" readonly value="Look with your eyes, not your hands.">
+          <span class="label input g4">Disabled</span>
+          <input type="text" class="g12" disabled value="You can't touch this.">
+          <span class="label input g4">Inset</span>
+          <input type="text" class="inset g12" placeholder="I've been put in the ground!">
+
+          <span class="label input g4">With clear button</span>
+          <div class="cont input g12">
+            <input type="text" class="full" value="See the button on the right? Please don't click it.">
+            <div class="button black icon delete ttip" data-ttip-opt="left dark" data-ttip="Clear input">X</div>
+          </div>
+          <span class="label input g4">File select</span>
+          <div class="file-sel g12">
+            <input type="file" class="file full">
+            <span class="icon">,</span>
+          </div>
+          
+          <span class="label input g4">Spinner</span>
+          <div class="spinner-body g12">
+            <input class="spinner number full" placeholder="Round and round we go">
+          </div>
+
+          <span class="label input g4">Big button spinner</span>
+          <div class="spinner-body big-btn no-mg-btm g12">
+            <input id="decimal" class="spinner number full" placeholder="And also decimals!">
+          </div>
+        </div>
+      </div>
+
+      <!--OTHER INPUTS-->
+
+      <div class="box coll g8" style="height: 500px">
+        <h2 class="box-ttl">Other inputs <span class="box-desc">(collapsible)</span></h2>
+        <div class="box-body form">
+
+          <span class="label g4">Mini Checkboxes</span>
+          <div class="cont g12">
+            <div class="g4"><input type="checkbox" class="chbox-mini"></div>
+            <div class="g4"><input type="checkbox" class="chbox-mini" checked></div>
+            <div class="g4"><input type="checkbox" class="chbox-mini" disabled></div>
+            <div class="g4 last"><input type="checkbox" class="chbox-mini" disabled checked></div>
+          </div>
+
+          <span class="label g4">Checkboxes</span>
+          <div class="cont g12">
+            <div class="g4"><input type="checkbox" class="chbox"></div>
+            <div class="g4"><input type="checkbox" class="chbox" checked></div>
+            <div class="g4"><input type="checkbox" class="chbox" disabled></div>
+            <div class="g4 last"><input type="checkbox" class="chbox" disabled checked></div>
+          </div>
+
+          <span class="label g4">Radio Checkboxes</span>
+          <div class="cont chbox-radio g12">
+            <div class="g4"><input type="checkbox" class="chbox"></div>
+            <div class="g4"><input type="checkbox" class="chbox" checked></div>
+            <div class="g4"><input type="checkbox" class="chbox"></div>
+            <div class="g4 last"><input type="checkbox" class="chbox" disabled checked></div>
+          </div>
+
+          <span class="label input g4">Select</span>
+          <div class="drop select g12">
+            <span class="opt-sel">Select an option...</span>
+            <ul>
+              <li>Pick me!</li>
+              <li>No, pick me!</li>
+              <li>Screw both of them, pick me!</li>
+            </ul>
+            <div class="button black icon delete">X</div>
+            <span class="arrow">&amp;</span>
+          </div>
+
+          <span class="label input g4">Multiple select</span>
+          <div class="drop select multiple g12">
+            <span class="opt-sel">Select one or more options...</span>
+            <ul>
+              <li class="sel-search no-sel">
+                <input type="text" class="inset" placeholder="Enter your search terms">
+              </li>
+              <li>Tag, you're it!</li>
+              <li class="sel-group no-sel">Tag Purgatory</li>
+              <li>Get your tags here!</li>
+              <li>Personalized tags available at a fee.</li>
+            </ul>
+            <div class="button black icon delete">X</div>
+            <span class="arrow">&amp;</span>
+          </div>
+
+          <span class="label input g4">Disabled select</span>
+          <div class="drop select disabled g12">
+            <span class="opt-sel">I'd like to change, but I can't...</span>
+            <ul>
+              <li>You aren't supposed to see me!</li>
+            </ul>
+            <div class="button black icon delete">X</div>
+            <span class="arrow">&amp;</span>
+          </div>
+
+          <span class="label input g4">Datepicker</span>
+          <div class="cont datepicker-cont g12">
+            <input type="text" class="datepicker full" placeholder="Select a date...">
+            <span class="icon txt-xxl">.</span>
+          </div>
+
+          <span class="label input g4">Colorpicker</span>
+          <div class="cont g12">
+            <input type="minicolors" class="colorpicker no-mg-btm full" placeholder="Select a color...">
+          </div>
+
+          <span class="label input g4">Pimped out input</span>
+          <div class="cont input-group no-mg-btm g12">
+            <div class="button orange toggle input-comp icon txt-xl lh-l">\</div>
+            <input type="text" class="no-mg-btm" placeholder="All iced out">
+            <div class="button red input-comp delete icon">X</div>
+            <div class="button green input-comp icon lh-l">W</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!--WYSIWYG EDITOR-->
+
+      <div id="editor-box" class="box coll g8">
+        <h2 class="box-ttl">WYSIWYG Editor <span class="box-desc">(collapsible)</span></h2>
+        <div class="box-body no-pad">
+          <textarea id="wysiwyg" class="no-bdrad no-mg full">
+            The quick brown wizard jumps over the toxic brewing dog.<br><br>
+            The web developer can't think of any content to fill this box.<br><br>
+            Text align left
+            <div style="text-align: center;">Text align center</div>
+            <div style="text-align: right;">Text align right</div>
+            <strong>Bold text</strong><br><br>
+            <span style="font-style: italic;">Italic Text</span><br><br>
+            <span style="text-decoration: underline;">Underlined text</span><br><br>
+            <span style="text-decoration: line-through;">Strikethrough text</span>
+          </textarea>
+        </div>
+      </div>
+
+    </div><!--END MAIN CONTENT-->
+
+    <!--MODAL WINDOWS-->
+
+    <div id="modal-ov">
+
+      <div class="modal" id="usr-mod">
+        <div class="mod-ttl"><h2>USER CONTROL PANEL</h2></div>
+        <div class="mod-body">
+
+          <div id="mod-home" class="nav-item show">
+            <div class="av-overlay"></div>
+            <img src="img/avatars/nick.jpg">
+            <ul id="usr-det">
+              <li><p><span>Name: </span>Nick Halden</p></li>
+              <li><p><span>Role: </span>System Administrator</p></li>
+              <li><p><span>Contact: </span>nick@haldeninc.com</p></li>
+              <li><p><span>Member since: </span>12.06.2010</p></li>
+              <li><p>You have <strong>2</strong> notifications pending</p></li>
+            </ul>
+          </div>
+
+          <div id="mod-set" class="nav-item">
+            <input type="text" class="g4" placeholder="First name" value="Nick">
+            <input type="text" class="g4" placeholder="Last name" value="Halden">
+            <input type="text" class="g8 last" placeholder="E-mail" value="nick@haldeninc.com">
+            <button class="g8">Change Password</button>
+            <button class="g8 last">Change Email</button>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Remember login details</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Toggle this checkbox</span></div>
+            </div>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox tgcls g4" data-tgcls="#wrapper hz-nav">
+              <div class="label g12 last"><span>Horizontal navigation</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4">
+              <div class="label g12 last"><span>God Mode</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-act">
+          <ul class="mod-nav">
+            <li class="sel" data-nav="#mod-home"><span class="icon">H</span></li>
+            <li data-nav="#mod-set"><span class="icon">U</span></li>
+          </ul>
+          <button class="orange close">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!--END WRAPPER-->
+
+  <span id="load">
+    <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+  </span>
+
+  <!---jQuery Code-->
+  <script type='text/javascript'>
+
+    // LOAD FUNCTIONS
+
+    $.fn.loadfns( function() {
+      $.fn.inputgrp();
+      $('#wysiwyg').cleditor({ height: 326 });
+      $('#eula').nanoScroller();
+
+      if ($('#ads').width() < 800) $('#ads').nanoScroller();
+    });
+    $.fn.inputs();
+    $('#sample-form').validate();
+    $('.datepicker').glDatePicker({ showAlways: false });
+    $('.nav-hz').scrollspy();
+    $('#age-inp').spinner({ min: 16, max: 99 });
+    $('#decimal').spinner({ step: 0.1101001101010011, numberFormat: "n" });
+    $('#card-num').mask('9999-9999-9999-9999');
+    $('#exp-inp').mask('99/99', {placeholder:'.'});
+  </script>
+</body>
+</html>

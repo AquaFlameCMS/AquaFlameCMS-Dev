@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FA - Analytics</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <!---CSS Files-->
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!---jQuery Files-->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/inputs.js"></script>
+  <script src="js/flot.js"></script>
+  <script src="js/functions.js"></script>
+</head>
+<body>
+
+  <div id="wrapper">
+
+    <div id="usr-panel">
+      <div class="av-overlay"></div>
+      <img src="img/avatars/nick.jpg" id="usr-av">
+      <div id="usr-info">
+        <span id="usr-name">Nick Halden</span><span id="usr-role">Administrator</span>
+        <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
+      </div>
+    </div>
+
+    <!--NAVIGATION-->
+
+    <div id="nav">
+      <ul>
+        <li><a href="dashboard.html"></a><span class="icon">H</span>Dashboard</li>
+        <li><a href="ui.html"></a><span class="icon">&lt;</span>UI Elements</li>
+        <li><a href="inputs.html"></a><span class="icon">F</span>Inputs</li>
+        <li class="active"><span class="icon">G</span>Analytics</li>
+        <li><a href="extras.html"></a><span class="icon">S</span>Extras</li>
+        <li><a href="grid.html"></a><span class="icon">N</span>Grid</li>
+        <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
+        <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
+      </ul>
+      <br class="clear">
+    </div>
+
+    <div id="content" class="analytics-page"><!--BEGIN MAIN CONTENT-->
+
+    <div id="stats-cont" class="box g2 chart-row">
+        <ul class="ul-grad">
+          <li><span class="icon icon-grad up">^</span><span class="stat-val">2500 USD</span><br>AD REVENUE</li>
+          <li><span class="icon icon-grad down">]</span><span class="stat-val">12540</span><br>VISITORS</li>
+          <li><span class="icon icon-grad up">^</span><span class="stat-val">568</span><br>SALES</li>
+          <li><span class="icon icon-grad">}</span><span class="stat-val">650</span><br>CLICKTHROUGHS</li>
+          <li><span class="icon icon-grad down">]</span><span class="stat-val">3450 MB</span><br>BANDWIDTH USE</li>
+          <li><span class="icon icon-grad">}</span><span class="stat-val">148</span><br>BAR FIGHTS</li>
+          <li><span class="icon icon-grad up">^</span><span class="stat-val">3400</span><br>BALLOONS POPPED</li>
+          <li><span class="icon icon-grad down">]</span><span class="stat-val">235</span><br>MANA</li>
+        </ul>
+      </div>
+
+      <div id="lines-cont" class="box g7 chart-row"><div id="lines" class="chart"></div></div>
+
+      <div id="bars-cont" class="box g7 chart-row"><div id="bars" class="chart"></div></div>
+
+      <br class="clear">
+
+      <div id="pie-cont" class="box chart-row2"><div id="pie"></div></div>
+
+      <div class="box chart-row3 square flot-donut">
+        <div id="donut"></div>
+        <div class="donut-ov anlt-donut"><div class="donut-ov-inner"></div></div>
+      </div>
+
+      <div id="waves-cont" class="box chart-row3 flt-no"><div id="waves" class="chart"></div></div>
+
+      <div class="box chart-row3 square anlt-donut">
+        <div class="donut-ov">
+          <div class="donut-ov-inner"></div>
+          <input type="text" id="knob" value="100" data-cursor=true data-thickness=.4>
+        </div>
+      </div>
+
+      <div class="box chart-row3 square anlt-donut">
+        <div class="donut-ov">
+          <div class="donut-ov-inner"></div>
+          <input type="text" id="knob2" value="25" data-displayPrevious=true data-thickness=.4>
+        </div>
+      </div>
+
+      <div id="bars-cont2" class="box chart-row3 flt-no"><div id="bars2" class="chart"></div></div>
+
+    </div><!--END MAIN CONTENT-->
+
+    <!--MODAL WINDOWS-->
+
+    <div id="modal-ov">
+
+      <div class="modal" id="usr-mod">
+        <div class="mod-ttl"><h2>USER CONTROL PANEL</h2></div>
+        <div class="mod-body">
+
+          <div id="mod-home" class="nav-item show">
+            <div class="av-overlay"></div>
+            <img src="img/avatars/nick.jpg">
+            <ul id="usr-det">
+              <li><p><span>Name: </span>Nick Halden</p></li>
+              <li><p><span>Role: </span>System Administrator</p></li>
+              <li><p><span>Contact: </span>nick@haldeninc.com</p></li>
+              <li><p><span>Member since: </span>12.06.2010</p></li>
+              <li><p>You have <strong>2</strong> notifications pending</p></li>
+            </ul>
+          </div>
+
+          <div id="mod-set" class="nav-item">
+            <input type="text" class="g4" placeholder="First name" value="Nick">
+            <input type="text" class="g4" placeholder="Last name" value="Halden">
+            <input type="text" class="g8 last" placeholder="E-mail" value="nick@haldeninc.com">
+            <button class="g8">Change Password</button>
+            <button class="g8 last">Change Email</button>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Remember login details</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Toggle this checkbox</span></div>
+            </div>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox tgcls g4" data-tgcls="#wrapper hz-nav">
+              <div class="label g12 last"><span>Horizontal navigation</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4">
+              <div class="label g12 last"><span>God Mode</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-act">
+          <ul class="mod-nav">
+            <li class="sel" data-nav="#mod-home"><span class="icon">H</span></li>
+            <li data-nav="#mod-set"><span class="icon">U</span></li>
+          </ul>
+          <button class="orange close">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!--END WRAPPER-->
+
+  <span id="load">
+    <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+  </span>
+
+  <!---jQuery Code-->
+  <script type='text/javascript'>
+
+    // LOAD FUNCTIONS
+
+    $.fn.loadfns();
+
+    // CHART PLOTTING
+
+     var d1 = [[0,10], [2,7], [4,10], [6,16], [8,19], [10,23], [12,30], [14,35], [16,40], [18,46], [20,54]];
+        d2 = [[4,0], [8,7], [10,12], [14,14], [16,18], [18,16], [20,20]];
+    $.plot($("#lines"), [ { data: d1, color: "#f0a602" }, { data: d2, color: "#71a100" } ], {
+      series: {
+        lines: { show: true, fill: true },
+        points: { show: true },
+        resize: false
+      },
+      xaxis: { ticks: false },
+      yaxis: { ticks: false },
+      grid: { borderWidth: 0, hoverable: true }
+    });
+
+    var d3 = [[0,20],[4,16],[8,12],[12,12],[16,16],[20,20]];
+        d4 = [[2,18],[6,14],[10,10],[14,14],[18,18]];
+    $.plot($("#bars"), [ { data: d3, color: "#1d73cf" }, { data: d4, color: "#94a100" } ], {
+      series: {
+        bars: { show: true }
+      },
+      xaxis: { ticks: false },
+      yaxis: { ticks: false },
+      grid: { borderWidth: 0, hoverable: true }
+    });
+
+    var d5 = [
+      { label: "Green", data: 25, color: "#527500"},
+      { label: "Orange", data: 37.5, color: "#d49100"},
+      { label: "Red", data: 37.5, color: "#B02A15"}
+    ];
+    $.plot($("#pie"), d5, {
+      series: {
+        pie: { show: true }
+      }
+    });
+
+    var d6 = [{ label: "Donut", data: 75, color: "#f0a602"}];
+    $.plot($("#donut"), d6, {
+      series: {
+        pie: { show: true, innerRadius: 0.6 }
+      }
+    });
+
+    var d7 = [];
+        d8 = [];
+    for (var i = 0; i < 14.2; i += 0.5) {
+      d7.push([i, Math.sin(i)]);
+      d8.push([i, Math.cos(i)]);
+    };
+    $.plot($("#waves"), [ { data: d7, color: "#f0a602" }, { data: d8, color: "#71a100" } ], {
+      series: {
+        lines: { show: true },
+        points: { show: true },
+        resize: false
+      },
+      xaxis: { min: 0, max: 14.1 },
+      yaxis: { min: -1.1, max: 1.1, tickDecimals: false },
+      grid: { color: '#999', borderWidth: 0, labelMargin: 10, hoverable: true }
+    });
+
+    var d9 = [[0,2],[2,4],[4,6],[6,8],[8,10],[10,12],[12,14],[14,16],[16,18],[18,20],[20,22]];
+       d10 = [[0,0],[4,3],[7,4],[11,11],[16,10],[21,18]];
+    $.plot($("#bars2"), [
+        { data: d10, color: "#f0a602", lines: { show: true, fill: true } },
+        { data: d9, color: "#71a100", bars: { show: true } }
+      ], {
+      xaxis: { ticks: false },
+      yaxis: { ticks: false },
+      grid: { borderWidth: 0 }
+    });
+
+    $('#knob').knob({ 'bgColor':'rgba(255,255,255,0.04)','fgColor':'#d6960b', 'cursor':'60' });
+    $('#knob2').knob({ 'bgColor':'rgba(255,255,255,0.04)','fgColor':'#658005' });
+
+    // FLUID LAYOUT
+
+    var docWidth = $(document).width();
+    if (docWidth < 1600 && docWidth > 1399) {
+      $('#content')
+        .children('#pie-cont').insertAfter('#stats-cont')
+        .siblings('#waves-cont').insertAfter('#bars-cont')
+        .siblings('.clear').remove();
+    } else if (docWidth < 1399 && docWidth > 1064) {
+      $('#content')
+        .children('#stats-cont').removeClass('g2').addClass('g4')
+        .siblings('#lines-cont').removeClass('g7').addClass('g12')
+        .siblings('#pie-cont').insertAfter('#lines-cont')
+        .siblings('.clear').insertAfter('#lines-cont')
+        .siblings('#bars-cont').removeClass('g7').addClass('flt-no');
+    } else if (docWidth < 1064) {
+      $('#content')
+        .children('#waves-cont').insertAfter('#bars-cont')
+        .siblings('#bars-cont2').insertAfter('#waves-cont');
+    };
+
+  </script>
+</body>
+</html>

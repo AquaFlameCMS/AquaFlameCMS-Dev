@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FA - UI Elements</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <!---CSS Files-->
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!---jQuery Files-->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/inputs.js"></script>
+  <script src="js/functions.js"></script>
+</head>
+<body>
+
+  <div id="wrapper">
+
+    <div id="usr-panel">
+      <div class="av-overlay"></div>
+      <img src="img/avatars/nick.jpg" id="usr-av">
+      <div id="usr-info">
+        <span id="usr-name">Nick Halden</span><span id="usr-role">Administrator</span>
+        <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
+      </div>
+    </div>
+
+    <!--NAVIGATION-->
+
+    <div id="nav">
+      <ul>
+        <li><a href="dashboard.html"></a><span class="icon">H</span>Dashboard</li>
+        <li class="active"><span class="icon">&lt;</span>UI Elements</li>
+        <li><a href="inputs.html"></a><span class="icon">F</span>Inputs</li>
+        <li><a href="analytics.html"></a><span class="icon">G</span>Analytics</li>
+        <li><a href="extras.html"></a><span class="icon">S</span>Extras</li>
+        <li><a href="grid.html"></a><span class="icon">N</span>Grid</li>
+        <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
+        <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
+      </ul>
+      <br class="clear">
+    </div>
+
+    <div id="content" class="ui-page"><!--BEGIN MAIN CONTENT-->
+
+      <div class="box row5 g6">
+        <div class="accordion">
+          <div class="section">
+            <h2 class="head">Accordion</h2>
+            <div class="section-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. <br><br>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+          </div>
+          <div class="section">
+            <h2 class="head">Section 2</h2>
+            <div class="section-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua.<br><br>
+              Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+          </div>
+          <div class="section">
+            <h2 class="head">Section 3</h2>
+            <div class="section-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur.<br><br>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </div>
+          </div>
+          <div class="section">
+            <h2 class="head">Section 4</h2>
+            <div class="section-content">
+              No extra markup required, the script detects when scrolling is needed.<br><br>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat.<br><br>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br><br>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat.<br><br>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box row5 g5">
+        <h2 class="box-ttl">Notifications</h2>
+        <div class="box-body">
+          <div id="notifs">
+            <div class="notif red g16">
+              Red notification (click for cake!)<span class="icon">X</span>
+              <p class="nt-det">The cake is a lie.</p>
+            </div>
+            <div class="notif blue g16">
+              Blue notification<span class="icon alt">D</span>
+            </div>
+            <div class="notif green g16">
+              Green notification<span class="icon">=</span>
+            </div>
+            <div class="notif orange g16">
+              Orange notification<span class="icon alt">&lt;</span>
+            </div>
+            <div class="notif purple g16">
+              Purple notification<span class="icon alt">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pbars-cont" class="box row5 g5">
+        <h2 class="box-ttl">Progressbars</h2>
+        <div id="pbars" class="box-body">
+          <div class="line-ind g16">
+            <div class="line red" style="width: 40%">
+              <p class="line-desc">RED: 
+              <span class="align-r">40%</span></p>
+            </div>
+          </div>
+          <div class="line-ind g16">
+            <div class="line blue" style="width: 80%">
+              <p class="line-desc">BLUE: 
+              <span class="align-r">80%</span></p>
+            </div>
+          </div>
+          <div class="line-ind g16">
+            <div class="line green" style="width: 50%">
+              <p class="line-desc">GREEN: 
+              <span class="align-r">50%</span></p>
+            </div>
+          </div>
+          <div class="line-ind g16">
+            <div class="line orange" style="width: 60%">
+              <p class="line-desc">ORANGE: 
+              <span class="align-r">60%</span></p>
+            </div>
+          </div>
+          <div class="line-ind g16">
+            <div class="line purple" style="width: 20%">
+              <p class="line-desc">PURPLE: 
+              <span class="align-r">30%</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box collapsed g8">
+        <ul class="breadcrumbs">
+          <li>Home</li>
+          <li>Work</li>
+          <li>School</li>
+          <li class="sel">Liquor store</li>
+        </ul>
+      </div>
+
+      <div class="box collapsed g8">
+        <ul class="nav-menu">
+          <li>Level 1</li>
+          <li>Level 2</li>
+          <li>Level 3</li>
+          <li class="sel">Final Boss Fight</li>
+        </ul>
+      </div>
+
+      <div class="box collapsed g4">
+        <div class="box-ttl">Box title with icon<span class="icon">O</span></div>
+      </div>
+
+      <div class="box collapsed g4">
+        <div class="box-ttl icon-l">Box title with icon left<span class="icon">J</span></div>
+      </div>
+
+      <div class="box collapsed g4">
+        <div class="box-ttl">Box title with button
+          <span class="tag green inline">and tag</span>
+          <div class="button black toggle only-icon lh-m">4</div>
+        </div>
+      </div>
+
+      <div class="box collapsed g4">
+        <div class="box-ttl">Box title with button group
+          <div class="btn-group">
+            <div class="button orange only-icon lh-l">-</div>
+            <div class="button green only-icon lh-l">+</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sliders-cont" class="box row5 g8">
+        <h2 class="box-ttl">Sliders</h2>
+        <div class="box-body">
+          <span class="label g3">Slider</span>
+          <div id="slider1" class="slider green cont g13"></div>
+
+          <span class="label g3">Slider with steps</span>
+          <div id="slider2" class="slider orange cont g13"></div>
+
+          <span class="label g3">Slider with max</span>
+          <div id="slider3" class="slider red cont g13"></div>
+
+          <span class="label g3">Grade display slider</span>
+          <div class="cont mg-btm g13">
+            <div id="slider-grd" class="slider grade full"></div>
+          </div>
+
+          <span class="label g3">Range slider</span>
+          <div id="slider4" class="slider blue cont g13"></div>
+        </div>
+      </div>
+
+      <div id="vt-sliders-cont" class="box row5 g8">
+        <h2 class="box-ttl">Vertical Sliders</h2>
+        <div class="box-body pad-top">
+          <div class="cont">
+            <div id="slider5" class="slider"></div>
+          </div>
+          <div class="cont">
+            <div id="slider6" class="slider orange"></div>
+          </div>
+          <div class="cont">
+            <div id="slider7" class="slider blue grade"></div>
+          </div>
+          <div class="cont">
+            <div id="slider8" class="slider purple grade grade-right"></div>
+          </div>
+          <div class="cont">
+            <div id="slider9" class="slider red"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box nav-box row6 g4">
+        <ul class="nav">
+          <li data-nav="#tab1" class="sel">Tab 1</li>
+          <li data-nav="#tab2">Tab 2</li>
+        </ul>
+        <div class="nav-body">
+          <div id="tab1" class="nav-item show">Hello World!</div>
+          <div id="tab2" class="nav-item">Shut up dude, that's for programs...</div>
+        </div>
+      </div>
+
+      <div class="box nav-box nav-btm row6 g4">
+        <div class="nav-body updown">
+          <div id="tab3" class="nav-item show">Nav on the bottom.</div>
+          <div id="tab4" class="nav-item">Nothing special. Quite boring, actually.</div>
+        </div>
+        <ul class="nav">
+          <li data-nav="#tab3" class="sel">Start</li>
+          <li data-nav="#tab4">End</li>
+        </ul>
+      </div>
+
+      <div class="box nav-box nav-l row6 g4">
+        <ul class="nav">
+          <li data-nav="#tab5" class="sel">First tab</li>
+          <li data-nav="#tab6">Second tab</li>
+        </ul>
+        <div class="nav-body updown">
+          <div id="tab5" class="nav-item show">Nav on the left, and vertical content transition.</div>
+          <div id="tab6" class="nav-item">Now isn't this neat.</div>
+        </div>
+      </div>
+
+      <div class="box nav-box nav-r row6 g4">
+        <ul class="nav">
+          <li data-nav="#tab7" class="sel">#1</li>
+          <li data-nav="#tab8">#2</li>
+        </ul>
+        <div class="nav-body">
+          <div id="tab7" class="nav-item show">Nav on the right, horizontal content transition.</div>
+          <div id="tab8" class="nav-item">Where did the other guy go? No one knows...</div>
+        </div>
+      </div>
+
+      <div class="box ui-box g8">
+        <span class="tag">Tag</span>
+        <span class="tag red">Red tag</span>
+        <span class="tag blue">Blue tag</span>
+        <span class="tag green">Green tag</span>
+        <span class="tag orange">Orange tag</span>
+        <span class="tag purple">Purple tag</span>
+      </div>
+
+      <div class="box ui-box g8">
+        <span class="badge black">Badge</span>
+        <span class="badge red">Red badge</span>
+        <span class="badge blue">Blue badge</span>
+        <span class="badge green">Green badge</span>
+        <span class="badge orange">Orange badge</span>
+        <span class="badge purple">Purple badge</span>
+      </div>
+
+      <div id="sort-boxes" class="cont full">
+        <div class="box g4">
+          <div class="box-ttl">Sortable box 1</div>
+          <div class="box-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. <br><br>
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+            aliquip ex ea commodo consequat.
+          </div>
+        </div>
+        <div class="box g4">
+          <div class="box-ttl">Sortable box 2</div>
+          <div class="box-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. <br><br>
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+            aliquip ex ea commodo consequat.
+          </div>
+        </div>
+        <div class="box g4">
+          <div class="box-ttl">Sortable box 3</div>
+          <div class="box-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. <br><br>
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+            aliquip ex ea commodo consequat.
+          </div>
+        </div>
+        <div class="box g4">
+          <div class="box-ttl">Sortable box 4</div>
+          <div class="box-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. <br><br>
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+            aliquip ex ea commodo consequat.
+          </div>
+        </div>
+      </div>
+
+    </div><!--END MAIN CONTENT-->
+
+    <!--MODAL WINDOWS-->
+
+    <div id="modal-ov">
+
+      <div class="modal" id="usr-mod">
+        <div class="mod-ttl"><h2>USER CONTROL PANEL</h2></div>
+        <div class="mod-body">
+
+          <div id="mod-home" class="nav-item show">
+            <div class="av-overlay"></div>
+            <img src="img/avatars/nick.jpg">
+            <ul id="usr-det">
+              <li><p><span>Name: </span>Nick Halden</p></li>
+              <li><p><span>Role: </span>System Administrator</p></li>
+              <li><p><span>Contact: </span>nick@haldeninc.com</p></li>
+              <li><p><span>Member since: </span>12.06.2010</p></li>
+              <li><p>You have <strong>2</strong> notifications pending</p></li>
+            </ul>
+          </div>
+
+          <div id="mod-set" class="nav-item">
+            <input type="text" class="g4" placeholder="First name" value="Nick">
+            <input type="text" class="g4" placeholder="Last name" value="Halden">
+            <input type="text" class="g8 last" placeholder="E-mail" value="nick@haldeninc.com">
+            <button class="g8">Change Password</button>
+            <button class="g8 last">Change Email</button>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Remember login details</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Toggle this checkbox</span></div>
+            </div>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox tgcls g4" data-tgcls="#wrapper hz-nav">
+              <div class="label g12 last"><span>Horizontal navigation</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4">
+              <div class="label g12 last"><span>God Mode</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-act">
+          <ul class="mod-nav">
+            <li class="sel" data-nav="#mod-home"><span class="icon">H</span></li>
+            <li data-nav="#mod-set"><span class="icon">U</span></li>
+          </ul>
+          <button class="orange close">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!--END WRAPPER-->
+
+  <span id="load">
+    <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+  </span>
+
+  <!---jQuery Code-->
+  <script type='text/javascript'>
+
+    // LOAD FUNCTIONS
+
+    $.fn.loadfns( function() {
+      $('.accordion').flaccordion();
+    });
+
+    $('#slider1').slider({ range: 'min', value: 25 });
+    $('#slider2, #slider-grd').slider({ range: 'min', value: 50, step: 10 });
+    $('#slider3').slider({ range: 'max', value: 50, max: 100 });
+    $('#slider4').slider({ range: true, values: [25, 75] });
+    $('#slider5').slider({ orientation: 'vertical', range: 'min', value: 70 });
+    $('#slider6').slider({ orientation: 'vertical', range: 'min', value: 40, step: 10 });
+    $('#slider7').slider({ orientation: 'vertical', range: 'max', value: 20 });
+    $('#slider8').slider({ orientation: 'vertical', range: 'min', value: 40 });
+    $('#slider9').slider({ orientation: 'vertical', range: true, values: [20, 70] });
+
+    $('#slider-grd, #slider7, #slider8').gradeslider();
+
+    $('#sort-boxes').sortable({
+      handle: ".box-ttl", containment: "#content", revert: 300, tolerance: "pointer",
+      placeholder: "box", forcePlaceholderSize: true, cursor: "move"
+    });
+
+  </script>
+</body>
+</html>

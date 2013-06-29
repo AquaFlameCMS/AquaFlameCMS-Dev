@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FA - Extras</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <!---CSS Files-->
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/elfinder.css">
+  <link rel="stylesheet" href="css/jquery-ui.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!---jQuery Files-->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/inputs.js"></script>
+  <script src="js/functions.js"></script>
+  <script src="js/datatables.js"></script>
+  <script src="js/elfinder.js"></script>
+</head>
+<body>
+
+  <div id="wrapper">
+
+    <div id="usr-panel">
+      <div class="av-overlay"></div>
+      <img src="img/avatars/nick.jpg" id="usr-av">
+      <div id="usr-info">
+        <span id="usr-name">Nick Halden</span><span id="usr-role">Administrator</span>
+        <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
+      </div>
+    </div>
+
+    <!--NAVIGATION-->
+
+    <div id="nav">
+      <ul>
+        <li><a href="dashboard.html"></a><span class="icon">H</span>Dashboard</li>
+        <li><a href="ui.html"></a><span class="icon">&lt;</span>UI Elements</li>
+        <li><a href="inputs.html"></a><span class="icon">F</span>Inputs</li>
+        <li><a href="analytics.html"></a><span class="icon">G</span>Analytics</li>
+        <li class="active"><span class="icon">S</span>Extras</li>
+        <li><a href="grid.html"></a><span class="icon">N</span>Grid</li>
+        <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
+        <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
+      </ul>
+      <br class="clear">
+    </div>
+
+    <div id="content" class="extras-page"><!--BEGIN MAIN CONTENT-->
+
+      <div class="box ui-box g16">
+        <a href="403.html" class="button orange">403 Page</a>
+        <a href="404.html" class="button orange">404 Page</a>
+        <a href="503.html" class="button orange no-mg">503 Page</a>
+      </div>
+
+      <div class="box ui-box g16">
+        <button id="toastr-sc" class="green">Success growl (top-right)</button>
+        <button id="toastr-er" class="red">Error growl (top-left)</button>
+        <button id="toastr-if" class="blue">Info growl (bottom-right)</button>
+        <button id="toastr-wr" class="orange">Warning growl (bottom-left)</button>
+        <button id="toastr-tf">Full growl (top)</button>
+        <button id="toastr-bf">Full growl (bottom)</button>
+      </div>
+
+      <div class="box g16">
+        <h2 class="box-ttl">Typography</h2>
+        <div id="typography" class="box-body">
+          <h1>Heading 1</h1>
+          <h2>Heading 2</h2>
+          <h3>Heading 3</h3>
+          <h4>Heading 4</h4>
+          <h5>Heading 5</h5>
+          <h6>Heading 6</h6>
+
+          <hr>
+
+          <span class="txt-l">Paragraph with huge font size</span>
+          <p class="txt-xxl">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p><hr>
+
+          <span class="txt-l">Paragraph with extra large font size</span>
+          <p class="txt-xl">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p><hr>
+
+          <span class="txt-l">Paragraph with large font size</span>
+          <p class="txt-l">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p><hr>
+
+          <span class="txt-l">Paragraph with medium font size</span>
+          <p class="txt-m">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p><hr>
+
+          <span class="txt-l">Paragraph with normal font size</span>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p><hr>
+
+          <span class="txt-l">Paragraph with small font size</span>
+          <p class="txt-s">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p><hr>
+
+          <span class="txt-l">Paragraph with tiny font size</span>
+          <p class="txt-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+          </p>
+        </div>
+      </div>
+
+      <div class="box g16">
+        <h2 class="box-ttl">Data table</h2>
+        <div class="box-body no-pad datatable-cont">
+          <table class="display table" id="example">
+            <thead>
+              <tr>
+                <th>Rendering engine</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th class="center">Engine version</th>
+                <th class="center">CSS grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="gradeX">
+                <td>Trident</td>
+                <td>Internet Explorer 4.0</td>
+                <td>Win 95+</td>
+                <td class="center"> 4</td>
+                <td class="center">X</td>
+              </tr>
+              <tr class="gradeC">
+                <td>Trident</td>
+                <td>Internet Explorer 5.0</td>
+                <td>Win 95+</td>
+                <td class="center">5</td>
+                <td class="center">C</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Trident</td>
+                <td>Internet Explorer 5.5</td>
+                <td>Win 95+</td>
+                <td class="center">5.5</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Trident</td>
+                <td>Internet Explorer 6</td>
+                <td>Win 98+</td>
+                <td class="center">6</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Trident</td>
+                <td>Internet Explorer 7</td>
+                <td>Win XP SP2+</td>
+                <td class="center">7</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Trident</td>
+                <td>AOL browser (AOL desktop)</td>
+                <td>Win XP</td>
+                <td class="center">6</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Gecko</td>
+                <td>Firefox 1.0</td>
+                <td>Win 98+ / OSX.2+</td>
+                <td class="center">1.7</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Gecko</td>
+                <td>Firefox 1.5</td>
+                <td>Win 98+ / OSX.2+</td>
+                <td class="center">1.8</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Gecko</td>
+                <td>Firefox 2.0</td>
+                <td>Win 98+ / OSX.2+</td>
+                <td class="center">1.8</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Gecko</td>
+                <td>Firefox 3.0</td>
+                <td>Win 2k+ / OSX.3+</td>
+                <td class="center">1.9</td>
+                <td class="center">A</td>
+              </tr>
+              <tr class="gradeA">
+                <td>Gecko</td>
+                <td>Firefox 3.0</td>
+                <td>Win 2k+ / OSX.3+</td>
+                <td class="center">1.9</td>
+                <td class="center">A</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="box g16" style="height: 440px">
+        <h2 class="box-ttl">File Manager</h2>
+        <div id="filemgr" class="box-body no-pad">
+        </div>
+      </div>
+
+    </div><!--END MAIN CONTENT-->
+
+    <!--MODAL WINDOWS-->
+
+    <div id="modal-ov">
+
+      <div class="modal" id="usr-mod">
+        <div class="mod-ttl"><h2>USER CONTROL PANEL</h2></div>
+        <div class="mod-body">
+
+          <div id="mod-home" class="nav-item show">
+            <div class="av-overlay"></div>
+            <img src="img/avatars/nick.jpg">
+            <ul id="usr-det">
+              <li><p><span>Name: </span>Nick Halden</p></li>
+              <li><p><span>Role: </span>System Administrator</p></li>
+              <li><p><span>Contact: </span>nick@haldeninc.com</p></li>
+              <li><p><span>Member since: </span>12.06.2010</p></li>
+              <li><p>You have <strong>2</strong> notifications pending</p></li>
+            </ul>
+          </div>
+
+          <div id="mod-set" class="nav-item">
+            <input type="text" class="g4" placeholder="First name" value="Nick">
+            <input type="text" class="g4" placeholder="Last name" value="Halden">
+            <input type="text" class="g8 last" placeholder="E-mail" value="nick@haldeninc.com">
+            <button class="g8">Change Password</button>
+            <button class="g8 last">Change Email</button>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Remember login details</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Toggle this checkbox</span></div>
+            </div>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox tgcls g4" data-tgcls="#wrapper hz-nav">
+              <div class="label g12 last"><span>Horizontal navigation</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4">
+              <div class="label g12 last"><span>God Mode</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-act">
+          <ul class="mod-nav">
+            <li class="sel" data-nav="#mod-home"><span class="icon">H</span></li>
+            <li data-nav="#mod-set"><span class="icon">U</span></li>
+          </ul>
+          <button class="orange close">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!--END WRAPPER-->
+
+  <span id="load">
+    <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+  </span>
+
+  <!---jQuery Code-->
+  <script type='text/javascript'>
+
+    // LOAD FUNCTIONS
+
+    $.fn.loadfns( function() {
+      $('#filemgr').elfinder({
+        url : 'res/elfinder/connector.php',
+        resizable: false
+      }).elfinder('instance');
+    });
+
+    $.fn.clearGrowl = function() {
+      toastr.clear();
+      $('body').children('#toast-container').fadeOut('100').remove();
+    };
+    $('#toastr-sc').click( function() {
+      $.fn.clearGrowl();
+      toastr.success('Success has been successfully achieved.');
+    });
+    $('#toastr-er').click( function() {
+      $.fn.clearGrowl();
+      toastr.options.positionClass = 'toast-top-left';
+      toastr.error('An error occurred while trying to display an error.');
+    });
+    $('#toastr-if').click( function() {
+      $.fn.clearGrowl();
+      toastr.options.positionClass = 'toast-bottom-right';
+      toastr.info("I'm here to drop some knowledge.");
+    });
+    $('#toastr-wr').click( function() {
+      $.fn.clearGrowl();
+      toastr.options.positionClass = 'toast-bottom-left';
+      toastr.warning('You are not allowed to look at this warning', 'Warning!');
+    });
+    $('#toastr-tf').click( function() {
+      $.fn.clearGrowl();
+      toastr.options.positionClass = 'toast-top-full';
+      toastr.info('Click some buttons', 'Achievement completed');
+    });
+    $('#toastr-bf').click( function() {
+      $.fn.clearGrowl();
+      toastr.options.positionClass = 'toast-bottom-full';
+      toastr.success('You have successfully deleted System32', 'Congrats!');
+    });
+
+    $('#example').dataTable({
+      "sPaginationType": "full_numbers", "aLengthMenu": [5, 10, 25], "iDisplayLength": 5,
+      "fnDrawCallback": function() {
+        $.fn.makeSelect();
+      }
+    });
+
+  </script>
+</body>
+</html>

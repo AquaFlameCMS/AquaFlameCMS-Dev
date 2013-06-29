@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FA - Grid</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <!---CSS Files-->
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!---jQuery Files-->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/inputs.js"></script>
+  <script src="js/functions.js"></script>
+</head>
+<body>
+
+  <div id="wrapper">
+
+    <div id="usr-panel">
+      <div class="av-overlay"></div>
+      <img src="img/avatars/nick.jpg" id="usr-av">
+      <div id="usr-info">
+        <span id="usr-name">Nick Halden</span><span id="usr-role">Administrator</span>
+        <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
+      </div>
+    </div>
+
+    <!--NAVIGATION-->
+
+    <div id="nav">
+      <ul>
+        <li><a href="dashboard.html"></a><span class="icon">H</span>Dashboard</li>
+        <li><a href="ui.html"></a><span class="icon">&lt;</span>UI Elements</li>
+        <li><a href="inputs.html"></a><span class="icon">F</span>Inputs</li>
+        <li><a href="analytics.html"></a><span class="icon">G</span>Analytics</li>
+        <li><a href="extras.html"></a><span class="icon">S</span>Extras</li>
+        <li class="active"><span class="icon">N</span>Grid</li>
+        <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
+        <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
+      </ul>
+      <br class="clear">
+    </div>
+
+    <div id="content" class="grid-page"><!--BEGIN MAIN CONTENT-->
+
+      <div id="grid-warning" class="notif no-disp orange g16">Because of the small screen size, grid sizes are enlarged.
+      </div>
+
+      <div id="grid-cont" class="full">
+        <div class="box g1"><span>.g1</span></div>
+        <div class="box g15"><span>.g15</span></div>
+
+        <div class="box g2"><span>.g2</span></div>
+        <div class="box g14"><span>.g14</span></div>
+
+        <div class="box g3"><span>.g3</span></div>
+        <div class="box g13"><span>.g13</span></div>
+
+        <div class="box g4"><span>.g4</span></div>
+        <div class="box g12"><span>.g12</span></div>
+
+        <div class="box g5"><span>.g5</span></div>
+        <div class="box g11"><span>.g11</span></div>
+
+        <div class="box g6"><span>.g6</span></div>
+        <div class="box g10"><span>.g10</span></div>
+
+        <div class="box g7"><span>.g7</span></div>
+        <div class="box g9"><span>.g9</span></div>
+
+        <div class="box g8"><span>.g8</span></div>
+        <div class="box g8"><span>.g8</span></div>
+
+        <div class="box g16"><span>.g16</span></div>
+      </div>
+
+      <div class="box g16">
+        <h2 class="box-ttl">Grid inside box</h2>
+        <div id="grid-box" class="box-body">
+          <div class="g1"><span>.g1</span></div>
+          <div class="g15"><span>.g15</span></div>
+
+          <div class="g2"><span>.g2</span></div>
+          <div class="g14"><span>.g14</span></div>
+
+          <div class="g3"><span>.g3</span></div>
+          <div class="g13"><span>.g13</span></div>
+
+          <div class="g4"><span>.g4</span></div>
+          <div class="g12"><span>.g12</span></div>
+
+          <div class="g5"><span>.g5</span></div>
+          <div class="g11"><span>.g11</span></div>
+
+          <div class="g6"><span>.g6</span></div>
+          <div class="g10"><span>.g10</span></div>
+
+          <div class="g7"><span>.g7</span></div>
+          <div class="g9"><span>.g9</span></div>
+
+          <div class="g8"><span>.g8</span></div>
+          <div class="g8"><span>.g8</span></div>
+
+          <div class="g16 no-mg-btm"><span>.g16</span></div>
+        </div>
+      </div>
+
+      <div id="nested-grid" class="box g16">
+        <div class="g4">
+          <div class="g8"><span>Nested</span></div>
+          <div class="g8"><span>.g8</span></div>
+          <div class="g4"><span>.g4</span></div>
+          <div class="g12"><span>.g12</span></div>
+        </div>
+        <div class="g5">
+          <div class="g4"><span>.g4</span></div>
+          <div class="g9"><span>.g9</span></div>
+          <div class="g3"><span>.g3</span></div>
+          <div class="g16"><span>Gridception!</span></div>
+        </div>
+        <div class="g7">
+          <div class="g7"><span>.g7</span></div>
+          <div class="g3"><span>.g3</span></div>
+          <div class="g6"><span>.g6</span></div>
+          <div class="g12"><span>.g12</span></div>
+          <div class="g4"><span>.g4</span></div>
+        </div>
+      </div>
+
+    </div><!--END MAIN CONTENT-->
+
+    <!--MODAL WINDOWS-->
+
+    <div id="modal-ov">
+
+      <div class="modal" id="usr-mod">
+        <div class="mod-ttl"><h2>USER CONTROL PANEL</h2></div>
+        <div class="mod-body">
+
+          <div id="mod-home" class="nav-item show">
+            <div class="av-overlay"></div>
+            <img src="img/avatars/nick.jpg">
+            <ul id="usr-det">
+              <li><p><span>Name: </span>Nick Halden</p></li>
+              <li><p><span>Role: </span>System Administrator</p></li>
+              <li><p><span>Contact: </span>nick@haldeninc.com</p></li>
+              <li><p><span>Member since: </span>12.06.2010</p></li>
+              <li><p>You have <strong>2</strong> notifications pending</p></li>
+            </ul>
+          </div>
+
+          <div id="mod-set" class="nav-item">
+            <input type="text" class="g4" placeholder="First name" value="Nick">
+            <input type="text" class="g4" placeholder="Last name" value="Halden">
+            <input type="text" class="g8 last" placeholder="E-mail" value="nick@haldeninc.com">
+            <button class="g8">Change Password</button>
+            <button class="g8 last">Change Email</button>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Remember login details</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4" checked>
+              <div class="label g12 last"><span>Toggle this checkbox</span></div>
+            </div>
+            <div class="g8 cont">
+              <input type="checkbox" class="chbox tgcls g4" data-tgcls="#wrapper hz-nav">
+              <div class="label g12 last"><span>Horizontal navigation</span></div>
+            </div>
+            <div class="g8 cont last">
+              <input type="checkbox" class="chbox g4">
+              <div class="label g12 last"><span>God Mode</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mod-act">
+          <ul class="mod-nav">
+            <li class="sel" data-nav="#mod-home"><span class="icon">H</span></li>
+            <li data-nav="#mod-set"><span class="icon">U</span></li>
+          </ul>
+          <button class="orange close">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!--END WRAPPER-->
+
+  <span id="load">
+    <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+  </span>
+
+  <!---jQuery Code-->
+  <script type='text/javascript'>
+
+    // LOAD FUNCTIONS
+
+    $.fn.loadfns( function() {
+      $('#grid-cont .box, #grid-box div').each( function() {
+        var width = $(this).outerWidth();
+
+        if (width < 90) {
+          $(this).addClass('ttip').attr('data-ttip', ''+width+'px').attr('data-ttip-opt','bottom').tooltip();
+        } else $(this).append('<span>('+width+')</span>');
+      })
+    });
+
+  </script>
+</body>
+</html>
