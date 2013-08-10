@@ -1,8 +1,20 @@
+<?php
+include("../configs.php");
+mysql_select_db($server_adb);
+$check_query = mysql_query("SELECT gmlevel from account inner join account_access on account.id = account_access.id where username = '" . strtoupper($_SESSION['username']) . "'") or die(mysql_error());
+$login = mysql_fetch_assoc($check_query);
+if ($login['gmlevel'] < 3) {
+    die('
+<meta http-equiv="refresh" content="2;url=wrong.php"/>
+		');
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>FA - Dashboard</title>
+  <title>Flame.NET - Dashboard</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
   <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
   <!---CSS Files-->
@@ -20,12 +32,17 @@
   <div id="wrapper">
 
     <!--USER PANEL-->
-
+	<?php 	$login_query = mysql_query("SELECT * FROM $server_adb.account WHERE username = '" . mysql_real_escape_string($_SESSION["username"]) . "'");
+			$login2 = mysql_fetch_assoc($login_query);
+	
+			$uI = mysql_query("SELECT avatar FROM $server_db.users WHERE id = '" . $login2['id'] . "'");
+			$userInfo = mysql_fetch_assoc($uI);
+	?>
     <div id="usr-panel">
       <div class="av-overlay"></div>
-      <img src="img/avatars/nick.jpg" id="usr-av">
+      <img src="<?php echo $website['root']; ?>images/avatars/2d/tyrael.gif" id="usr-av">
       <div id="usr-info">
-        <span id="usr-name">Nick Halden</span><span id="usr-role">Administrator</span>
+        <span id="usr-name"><?php echo $account_extra['firstName']; ?></span><span id="usr-role">Administrator</span>
         <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
       </div>
     </div>
@@ -35,20 +52,21 @@
     <div id="nav">
       <ul>
         <li class="active"><span class="icon">H</span>Dashboard</li>
-        <li><a href="ui.html"></a><span class="icon">&lt;</span>UI Elements</li>
-        <li><a href="inputs.html"></a><span class="icon">F</span>Inputs</li>
-        <li><a href="analytics.html"></a><span class="icon">G</span>Analytics</li>
-        <li><a href="extras.html"></a><span class="icon">S</span>Extras</li>
-        <li><a href="grid.html"></a><span class="icon">N</span>Grid</li>
+        <li><a href="news.php"></a><span class="icon">&lt;</span>News</li>
+        <li><a href="media.php"></a><span class="icon">F</span>Media</li>
+        <li><a href="users.php"></a><span class="icon">G</span>Users</li>
+        <li><a href="health.php"></a><span class="icon">S</span>Server Health</li>
+        <li><a href="more.html"></a><span class="icon">N</span>More</li>
         <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
         <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
       </ul>
       <br class="clear">
     </div>
 
-    <div id="content" class="dashboard-page"><!--BEGIN MAIN CONTENT-->
-
-       <div id="stats-cont" class="box g2 row1">
+    <!--BEGIN MAIN CONTENT-->
+	<div id="content" class="dashboard-page">
+	<!-- Google Statistics -->
+	<div id="stats-cont" class="box g2 row1">
         <ul class="ul-grad">
           <li><span class="icon icon-grad up">^</span><span class="stat-val">2500 USD</span><br>AD REVENUE</li>
           <li><span class="icon icon-grad down">]</span><span class="stat-val">12540</span><br>VISITORS</li>
@@ -56,26 +74,30 @@
           <li><span class="icon icon-grad">}</span><span class="stat-val">650</span><br>CLICKTHROUGHS</li>
           <li><span class="icon icon-grad down">]</span><span class="stat-val">3450 MB</span><br>BANDWIDTH USE</li>
         </ul>
-      </div>
-
-      <div id="users-cont" class="box g4 row1"> <!--USERS LIST-->
+    </div>
+	
+	<div id="users-cont" class="box g4 row1"> <!--USERS LIST-->
         <div class="scroll">
           <ul class="scroll-cont ul-grad">
-            <li><span>Nick Halden</span><span class="users-role">System Administrator</span></li>
-            <li><span>Katherine</span><span class="users-role">Cat</span></li>
-            <li><span>John Doe</span><span class="users-role">Silhouette</span></li>
-            <li><span>Tony Stark</span><span class="users-role">Awesome</span></li>
-            <li><span>Heisenberg</span><span class="users-role">The One Who Knocks</span></li>
+		  <?php
+                            mysql_select_db($server_db) or die(mysql_error());
+                            $users = mysql_query("SELECT U.id,U.firstName,U.lastName,U.birth,username FROM users U, $server_adb.account A
+            WHERE A.id = U.id ORDER BY id DESC LIMIT 6");
+                            while ($usercheck = mysql_fetch_assoc($users)) {
+                                mysql_select_db($server_cdb) or die(mysql_error());
+                                $chars = mysql_query("SELECT name FROM characters WHERE account = '" . $usercheck['id'] . "'");
+                                echo '<li><span>' . $usercheck['username'] . '</span><span class="users-role">' . $usercheck['firstName'] . ' ' . $usercheck['lastName'] . '</span></li>';
+                                while ($charcheck = mysql_fetch_assoc($chars)) {
+                                }
+                                
+                            }
+                            ?>
           </ul>
         </div>
         <div class="btn-set-btm full">
           <button id="add-usr" class="black has-icon"><span class="icon">a</span>Add new user</button>
           <button id="mng-usr" class="black has-icon"><span class="icon">C</span>Manage users</button>
         </div>
-      </div>
-
-      <div id="chart-box" class="box g6 row1"> <!--FLOT CHART-->
-        <div id="front-chart" class="chart"></div>
       </div>
 
       <div id="bk-mng" class="box g4 row1"> <!--BACKUP MANAGER-->
@@ -131,190 +153,9 @@
         </ul>
       </div>
 
-      <div class="box g5 row2" id="recent-conv"> <!--CHAT CONVERSATION-->
-        <div class="scroll">
-          <ul class="conv scroll-cont">
-            <li class="msg received hasav">
-              <div class="msg-av"></div><div class="message"><p><span class="msg-info">Sara, 4 hours ago</span>
-              Hi Nick, are we still on for tonight at 7?</p></div>
-            </li>
-            <li class="msg sent">
-              <div class="message"><p><span class="msg-info">Sent 3 hours ago</span>
-              Sure, I'll pick you up. I'll need your new address though : )</p></div>
-            </li>
-            <li class="msg received">
-              <div class="message"><p><span class="msg-info">Sara, 2 hours ago</span>
-              Great, I'll wear the dress I bought today! I moved to 47 Lincoln St., ap. 18</p></div>
-            </li>
-            <li class="msg sent">
-              <div class="message"><p><span class="msg-info">Sent 2 hours ago</span>
-              Sounds good, can't wait to see you ( and the dress )!</p></div>
-            </li>
-            <li class="msg received">
-              <div class="message"><p><span class="msg-info">Sara, 1 hour ago</span>
-              Me neither, hope you're taking me somewhere nice!</p></div>
-            </li>
-          </ul>
-          <form class="conv-text">
-            <input type="text" class="conv-input" placeholder="Type in your message...">
-            <button class="orange conv-btn">Send</button>
-          </form>
-        </div>
-      </div>
-
-      <div id="todo-list" class="box g5 row2"> <!--TODO LIST-->
-        <div class="scroll">
-          <ul class="scroll-cont ul-grad">
-            <li class="done"><div class="todo-check"></div><div class="todo-title">Wake up
-              <span>No, you can't sleep 5 more minutes</span></div></li>
-            <li><div class="todo-check"></div><div class="todo-title">Brush teeth
-              <span>Will make OJ taste weird</span></div></li>
-            <li><div class="todo-check"></div><div class="todo-title">Eat breakfast
-              <span>Some bacon and beer will hit the spot</span></div></li>
-            <li><div class="todo-check"></div><div class="todo-title imp">Do work
-              <span>Haha, kidding, procrastination is fun!</span></div></li>
-            <li><div class="todo-check"></div><div class="todo-title">Procrastinate some more
-              <span>Okay, one more page, and then I really have to do some work</span></div></li>
-            <li><div class="todo-check"></div><div class="todo-title">Think about sleeping
-              <span>But you're just not there yet, so keep on surfing tha interwebz</span></div></li>
-            <li><div class="todo-check"></div><div class="todo-title">Go to sleep incredibly late
-              <span>Because procrastination is also addictive. Tomorrow, rinse and repeat</span></div></li>
-          </ul>
-        </div>
-      </div>
-
-      <div id="support-tickets" class="box g6 row2"> <!--SUPPORT TICKETS-->
-        <div class="scroll">
-          <ul class="ul-grad scroll-cont">
-            <li>
-              <span class="support-name">Can't get my cats in a funny position</span>
-              <span class="badge orange">URGENT</span><span class="support-usr">jDoe34</span>
-              <p class="support-msg">I want to take a cute picture for reddit. It's really annoying, why should other people rake in karma and not me?</p>
-            </li>
-            <li>
-              <span class="support-name">I was the 1.000.000th visitor on a site, but no prize yet?</span>
-              <span class="badge black">NORMAL</span><span class="support-usr">milwinnr</span>
-              <p class="support-msg">I was so lucky. My grandson showed me how to use the internet, and the very first website I go to tells me I won! Now all I have to do is wait, but does anyone know for how long?</p>
-            </li>
-            <li>
-              <span class="support-name">I hid the body. Now what?</span>
-              <span class="badge orange">URGENT</span><span class="support-usr">killaJoe</span>
-              <p class="support-msg">I think I got rid of the evidence, but lately a van has been hanging out around my house. What do?</p>
-            </li>
-            <li>
-              <span class="support-name">How can I power my mass destruction weapon with a potato?</span>
-              <span class="badge green">LOW</span><span class="support-usr">evillain</span>
-              <p class="support-msg">This is a legitimate question. I want to know for uh... science!</p>
-            </li>
-            <li>
-              <span class="support-name">I snorted 3 marijuanas and almost died... Never again!</span>
-              <span class="badge black">NORMAL</span><span class="support-usr">fcbkgurl</span>
-              <p class="support-msg">Srsly guize, that stuff is dangerous. jk lol #YOLO.</p>
-            </li>
-            <li>
-              <span class="support-name">Am I the only one around here who has an actual problem?</span>
-              <span class="badge red">CRITICAL</span><span class="support-usr">Walter</span>
-              <p class="support-msg">Seriously, none of these questions even make sense!</p>
-            </li>
-            <li>
-              <span class="support-name">how can i make 800.000 dollars in less than 24 hours?</span>
-              <span class="badge green">LOW</span><span class="support-usr">seemslegit</span>
-              <p class="support-msg">my friend told me he makes $10.000 per hour hacking google can anyone teach me to hack really quick please</p>
-            </li>
-            <li>
-              <span class="support-name">My new $3000 PC set my house on fire!</span>
-              <span class="badge orange">URGENT</span><span class="support-usr">noLuckBrian</span>
-              <p class="support-msg">I... I just can't believe it. I turned it on and went to grab a beer. When I came back the whole case was engulfed in flames, the fans started spinning at max speed making an unholy infernal noise, and propelled the flames towards the curtains, burning them and half the room in less than 5 minutes. After the fire was put out, I went to check the damage. The case was intact, and the LED lights were on. They were both red.</p>
-            </li>
-             <li>
-              <span class="support-name">-</span>
-              <span class="badge black">NORMAL</span><span class="support-usr">mFreeman</span>
-              <p class="support-msg"><br><br><br><br></p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <br class="clear">
-
-      <div class="box cal-box row3"> <!--CALENDAR-->
-        <div id="calendar"></div>
-      </div>
-
-      <!--TABLE-->
-
-      <div id="tb-box" class="box g7 row3">
-        <table id="dash-tb" class="table">
-          <thead>
-            <tr><th>Buyer's Name</th><th>Shipping Address</th><th>Q'ty</th><th>Status</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Adam Burke</td><td>247 Independence St, MT 51382</td><td>64</td>
-              <td><span class="badge green">SENT</span></td>
-            </tr>
-            <tr><td>Laura Stanton</td><td>463 Coney Island Ave, NY 11230</td><td>25</td>
-              <td><span class="badge orange">PENDING</span></td>
-            </tr>
-            <tr><td>Joe Camden</td><td>1521 Vance Ave, TN 38104</td><td>999</td>
-              <td><span class="badge red">CANCELLED</span></td>
-            </tr>
-            <tr><td>David O'Malley</td><td>The Rainbow Pub, Laddy</td><td>30</td>
-              <td><span class="badge black">PROCESSING</span></td>
-            </tr>
-            <tr><td>Michael Decker</td><td>420 Colin St, CO 78521</td><td>12</td>
-              <td><span class="badge green">SENT</span></td>
-            </tr>
-            <tr><td>Kim Chow</td><td>21 Shady Apartments, Thailand</td><td>200</td>
-              <td><span class="badge orange">PENDING</span></td>
-            </tr>
-            <tr><td>John Acker</td><td>64 Fulton Ave, WA 75416</td><td>50</td>
-              <td><span class="badge green">SENT</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="box flt-no row3" id="ind-cont"> <!--INDICATORS-->
-        <ul class="ul-grad">
-          <li><div class="line-ind">
-              <div class="line orange" style="width: 60%"></div>
-              <p class="line-desc">DISK SPACE: <span class="align-r">2500MB / 6250MB</span></p></div>
-          </li>
-          <li><div class="line-ind"><div class="line blue" style="width: 34.5%"></div>
-              <p class="line-desc">MONTHLY BANDWIDTH: <span class="align-r">3450MB / 10GB</span></p></div>
-          </li>
-          <li><div class="line-ind"><div class="line red init" id="nbill"></div>
-              <p class="line-desc">NEXT BILL DUE IN: <span class="align-r">3 DAYS</span></p></div>
-          </li>
-          <li><div class="line-ind"><div class="line green" style="width: 30%"></div>
-              <p class="line-desc">BUDGET: <span class="align-r">20000$ / 30000$</span></p></div>
-          </li>
-          <li><div class="line-ind"><div class="line purple" style="width: 50%"></div>
-              <p class="line-desc">POWER LEVEL: <span class="align-r">OVER 9000</span></p></div>
-          </li>
-          <li>
-            <div class="pie-ind">
-              <div class="donut-ov"><div class="donut-ov-inner"></div>
-              <input type="text" value="65" id="pie-1" data-width="80"></div>
-              <p class="pie-desc">VISITOR RETURN RATE<br>
-                <span>OVER A PERIOD OF 30 DAYS<br>HIGHEST WAS <strong>82%</strong> IN APRIL<br>
-                UP 8.6% FROM LAST MONTH</span>
-              </p>
-            </div>
-            <div class="pie-ind">
-              <div class="donut-ov"><div class="donut-ov-inner"></div>
-              <input type="text" value="45" id="pie-2" data-width="80"></div>
-              <p class="pie-desc">CLICKTHROUGH RATE<br>
-                <span>OVER A PERIOD OF 30 DAYS<br>HIGHEST WAS <strong>67%</strong> IN MARCH<br>
-                DOWN 9% FROM LAST MONTH</span>
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
+      
 
     </div><!--END MAIN CONTENT-->
-
     <!--MODAL WINDOWS-->
 
     <div id="modal-ov">
@@ -323,11 +164,11 @@
         <div class="mod-body">
           <div id="mod-home" class="nav-item show">
             <div class="av-overlay"></div>
-            <img src="img/avatars/nick.jpg">
+            <img src="<?php echo $website['root']; ?>images/avatars/2d/tyrael.gif">
             <ul id="usr-det">
-              <li><p><span>Name: </span>Nick Halden</p></li>
+              <li><p><span>Name: </span><?php echo $account_extra['firstName'] . ' ' . $account_extra['lastName']; ?></p></li>
               <li><p><span>Role: </span>System Administrator</p></li>
-              <li><p><span>Contact: </span>nick@haldeninc.com</p></li>
+              <li><p><span>Contact: </span>admin@aquaflame.org</p></li>
               <li><p><span>Member since: </span>12.06.2010</p></li>
               <li><p>You have <strong>2</strong> notifications pending</p></li>
             </ul>
@@ -367,9 +208,9 @@
             </div>
           </div>
           <div id="mod-set" class="nav-item">
-            <input type="text" class="g4" placeholder="First name" value="Nick">
-            <input type="text" class="g4" placeholder="Last name" value="Halden">
-            <input type="text" class="g8 last" placeholder="E-mail" value="nick@haldeninc.com">
+            <input type="text" class="g4" placeholder="First name" value="<?php echo $account_extra['firstName']; ?>">
+            <input type="text" class="g4" placeholder="Last name" value="<?php echo $account_extra['lastName']; ?>">
+            <input type="text" class="g8 last" placeholder="E-mail" value="admin@aquaflame.org">
             <button class="g8">Change Password</button>
             <button class="g8 last">Change Email</button>
             <div class="g8 cont">
