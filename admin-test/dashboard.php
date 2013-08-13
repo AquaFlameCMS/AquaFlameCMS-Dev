@@ -19,6 +19,7 @@ if ($login['gmlevel'] < 3) {
   <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
   <!---CSS Files-->
   <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/ui.css">
   <link rel="stylesheet" href="css/style.css">
   <!---jQuery Files-->
   <script src="js/jquery.js"></script>
@@ -99,27 +100,54 @@ if ($login['gmlevel'] < 3) {
           <button id="mng-usr" class="black has-icon"><span class="icon">C</span>Manage users</button>
         </div>
       </div>
+<?php
+$agent = $_SERVER['HTTP_USER_AGENT']; 
+$browserArray = array(
+        'Windows Mobile' => 'IEMobile',
+	'Android Mobile' => 'Android',
+	'iPhone Mobile' => 'iPhone',
+	'Firefox' => 'Firefox',
+        'Google Chrome' => 'Chrome',
+        'Internet Explorer' => 'MSIE',
+        'Opera' => 'Opera',
+        'Safari' => 'Safari'
+); 
+foreach ($browserArray as $k => $v) {
+    if (preg_match("/$v/", $agent)) {
+         break;
+    }	else {
+	 $k = "Browser Unknown";
+    }
+} 
+$browser = $k;
+$osArray = array(
+        'Windows 98' => '(Win98)|(Windows 98)',
+        'Windows 2000' => '(Windows 2000)|(Windows NT 5.0)',
+		'Windows ME' => 'Windows ME',
+        'Windows XP' => '(Windows XP)|(Windows NT 5.1)',
+        'Windows Vista' => 'Windows NT 6.0',
+        'Windows 7' => '(Windows NT 6.1)|(Windows NT 7.0)',
+        'Windows 7+' => '(WinNT)|(Windows NT 4.0)|(WinNT4.0)|(Windows NT)',
+		'Linux' => '(X11)|(Linux)',
+		'Mac OS' => '(Mac_PowerPC)|(Macintosh)|(Mac OS)'
+); 
+foreach ($osArray as $k => $v) {
 
+    if (preg_match("/$v/", $agent)) {
+         break;
+    }	else {
+	 $k = "Unknown OS";
+    }
+} 
+$os = $k;
+?><?php system("uname -a"); ?>
       <div id="bk-mng" class="box g4 row1"> <!--BACKUP MANAGER-->
         <ul class="ul-grad">
           <li>
-            <p>Automatic backup:<br><span>NEXT: 19 FEB, LAST: 19 NOV</span></p>
-            <input type="checkbox" class="chbox tgcls" data-tgcls="#bk-off true" checked>
+            <p>System:<br><span><?php echo php_uname(); ?></span></p>
           </li>
           <li id="rmt">
-            <p>Remote FTP save:<br><span>SERVER: backup.server.com</span></p>
-            <div class="bk-act">
-              <div class="button btn-s tgcls icon" data-tgcls="#rmt expanded">)</div>
-              <input type="checkbox" class="chbox" checked>
-            </div>
-            <div id="rmt-info">
-              <input type="text" class="g12" placeholder="FTP Server" value="backup.server.com">
-              <input type="text" class="g4 last" maxlength="4" placeholder="Port" value="21">
-              <input type="text" class="g8" placeholder="Username" value="jDizzle">
-              <input type="password" class="g8 last" placeholder="Password" value="No one will ever see me. MUHAHAHA">
-              <input type="text" class="g16 last" placeholder="URL" value="localhost/backup/2013/">
-              <br>
-            </div>
+            <p>Browser:<br><span><?php echo "$browser - $os"; ?></span></p>
           </li>
           <li id="bk-opts">
             <p>Backup options:<br><span>Select which files are included in the backup</span></p>
@@ -144,18 +172,64 @@ if ($login['gmlevel'] < 3) {
           </li>
           <li id="rmt-sp">
             <div class="line-ind">
-              <div class="line blue" style="width: 34.5%"></div>
-              <p class="line-desc">REMOTE FREE SPACE: 
-              <span class="align-r">120GB / 180GB</span></p>
+              <div class="line blue" style="width: 32%"></div>
+              <p class="line-desc">SERVER FREE SPACE: 
+              <span class="align-r">
+			<?php 
+				$bytes = disk_free_space("."); 
+				$si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
+				$base = 1024;
+				$class = min((int)log($bytes , $base) , count($si_prefix) - 1);
+				echo sprintf('%1.0f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class] . '';
+			?> / 465GB
+			</span></p>
             </div>
           </li>
           <div id="bk-off"></div>
         </ul>
       </div>
+<div id="grid-cont" class="full">
 
-      
+        <div class="box g8"><span>News</span></div>
+        <div class="box g8"><span>Forum Posts</span></div>
 
-    </div><!--END MAIN CONTENT-->
+      </div>
+<div id="support-tickets" class="box g6 row2"> <!--SUPPORT TICKETS-->
+        <div class="scroll">
+          <ul class="ul-grad scroll-cont">
+		   <?php
+                            mysql_select_db($server_db) or die(mysql_error());
+                            $news = mysql_query("SELECT id,author,content,title,comments FROM news ORDER BY date DESC LIMIT 7");
+                            while ($fcheck2 = mysql_fetch_assoc($news)) {
+                                echo'
+			<li>
+              <span class="support-name">' . substr(strip_tags($fcheck2['title']), 0, 60) . '...</span>
+              <a href="deletenews.php?id=' . $new['id'] . '"><span class="badge red">DELETE</span></a><span class="support-usr">' . $fcheck2['author'] . '</span>
+              <p class="support-msg">' . substr(strip_tags($fcheck2['content']), 0, 90) . '...<br><br><span>Comments: ' . $fcheck2['comments'] . '</span></p>
+            </li>';
+                  }
+                  ?>
+          </ul>
+        
+      </div></div>
+<div id="support-tickets" class="box g6 row2"> <!--SUPPORT TICKETS-->
+        <div class="scroll">
+          <ul class="ul-grad scroll-cont">
+		   <?php
+                            mysql_select_db($server_db) or die(mysql_error());
+                            $forum = mysql_query("SELECT id,name,author,content,replies,views FROM forum_threads ORDER BY date DESC LIMIT 7");
+                            while ($fcheck = mysql_fetch_assoc($forum)) {
+                                echo'
+			<li>
+              <span class="support-name">' . substr(strip_tags($fcheck['name']), 0, 60) . '...</span>
+              <a href="deletefor.php?id=' . $fcheck['id'] . '"><span class="badge red">DELETE</span></a><span class="support-usr">jDoe34</span>
+              <p class="support-msg">' . substr(strip_tags($fcheck['content']), 0, 90) . '...<br><br><span>Views: ' . $fcheck['views'] . '</span><br><span>Replies: ' . $fcheck['replies'] . '</span></p>
+            </li>';
+                  }
+                  ?>
+          </ul></div>
+      </div>
+	</div><!--END MAIN CONTENT-->
     <!--MODAL WINDOWS-->
 
     <div id="modal-ov">
@@ -334,8 +408,10 @@ if ($login['gmlevel'] < 3) {
     // SUPPORT TICKETS
 
     $('#support-tickets').children('.scroll').nanoScroller();
-    $('#support-tickets .support-msg').append('<span class="support-full">VIEW FULL TICKET</span>');
-    $('#support-tickets li').click( function() {
+    $('#support-tickets .support-msg').append('<a href="editfor.php?id="<?php echo $fcheck["id"]; ?>"><span class="support-full">EDIT</span></a>');
+    $('#support-tickets2 .support-msg2').append('<a href="editnews.php?id="<?php echo $fcheck2["id"]; ?>"><span class="support-full">EDIT</span></a>');
+    
+	$('#support-tickets li').click( function() {
       var supMsgHeight = $(this).children('.support-msg').height() + 56;
             contHeight = $('#support-tickets').outerHeight();
               liPosTop = $(this).position().top;
