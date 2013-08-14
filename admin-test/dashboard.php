@@ -141,7 +141,8 @@ foreach ($osArray as $k => $v) {
 } 
 $os = $k;
 ?><?php system("uname -a"); ?>
-      <div id="bk-mng" class="box g4 row1"> <!--BACKUP MANAGER-->
+	  <!-- Computer / Server Info -->
+      <div id="bk-mng" class="box g4 row1">
         <ul class="ul-grad">
           <li>
             <p>System:<br><span><?php echo php_uname(); ?></span></p>
@@ -194,7 +195,8 @@ $os = $k;
         <div class="box g8"><span>Forum Posts</span></div>
 
       </div>
-<div id="support-tickets" class="box g6 row2"> <!--SUPPORT TICKETS-->
+	<!-- News Section -->
+	<div id="support-tickets" class="box g6 row2">
         <div class="scroll">
           <ul class="ul-grad scroll-cont">
 		   <?php
@@ -212,7 +214,8 @@ $os = $k;
           </ul>
         
       </div></div>
-<div id="support-tickets" class="box g6 row2"> <!--SUPPORT TICKETS-->
+	<!-- Forum Threads -->
+	<div id="support-tickets" class="box g6 row2">
         <div class="scroll">
           <ul class="ul-grad scroll-cont">
 		   <?php
@@ -229,6 +232,34 @@ $os = $k;
                   ?>
           </ul></div>
       </div>
+	  <!-- Vote Section -->
+	  <div id="tb-box" class="box g7 row3">
+        <table id="dash-tb" class="table">
+          <thead>
+            <tr><th>Voter's Name / Username</th><th>Date / Time</th><th>Points</th><th>AC Status</th></tr>
+          </thead>
+          <tbody>
+		  <?php
+                            mysql_select_db($server_db) or die(mysql_error());
+                            $date = mysql_query("SELECT id,userid,date,voteid FROM votes ORDER BY id DESC LIMIT 7");
+                            while ($vget = mysql_fetch_assoc($date)) {
+                            $vote = mysql_query("SELECT id,firstName,lastName,vote_points FROM users ORDER BY id DESC LIMIT 7");
+                            while ($vcheck = mysql_fetch_assoc($vote)) {
+                                echo'
+			<tr><td>' . $vcheck['firstName'] . ' ' . $vcheck['lastName'] . '</td><td>' . $vget['date'] . '</td><td>' . $vcheck['vote_points'] . '</td>
+              <td><span class="badge green">ACTIVE</span></td>
+            </tr>';
+                  }
+				  }
+                  ?>
+          </tbody>
+        </table>
+      </div>
+	   <!--CALENDAR-->
+	  <div class="box cal-box row3">
+        <div id="calendar"></div>
+      </div>
+	  
 	</div><!--END MAIN CONTENT-->
     <!--MODAL WINDOWS-->
 
