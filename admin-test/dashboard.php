@@ -189,14 +189,12 @@ $os = $k;
           <div id="bk-off"></div>
         </ul>
       </div>
-<div id="grid-cont" class="full">
-
+	<div id="grid-cont" class="full">
         <div class="box g8"><span>News</span></div>
         <div class="box g8"><span>Forum Posts</span></div>
-
       </div>
 	<!-- News Section -->
-	<div id="support-tickets" class="box g6 row2">
+	<div id="support-tickets2" class="box g6 row2">
         <div class="scroll">
           <ul class="ul-grad scroll-cont">
 		   <?php
@@ -207,7 +205,7 @@ $os = $k;
 			<li>
               <span class="support-name">' . substr(strip_tags($fcheck2['title']), 0, 60) . '...</span>
               <a href="deletenews.php?id=' . $new['id'] . '"><span class="badge red">DELETE</span></a><span class="support-usr">' . $fcheck2['author'] . '</span>
-              <p class="support-msg">' . substr(strip_tags($fcheck2['content']), 0, 90) . '...<br><br><span>Comments: ' . $fcheck2['comments'] . '</span></p>
+              <p class="support-msg2">' . substr(strip_tags($fcheck2['content']), 0, 90) . '...<br><br><span>Comments: ' . $fcheck2['comments'] . '</span></p>
             </li>';
                   }
                   ?>
@@ -232,6 +230,28 @@ $os = $k;
                   ?>
           </ul></div>
       </div>
+	  <!--CALENDAR-->
+	  <div class="box cal-box row3">
+        <div id="calendar"></div>
+      </div>
+	  <!--TICKET LIST-->
+	  <div id="todo-list" class="box g5" style="height: 344px;" >
+        <div class="scroll">
+          <ul class="scroll-cont ul-grad">
+		  <?php
+                            mysql_select_db($server_cdb) or die(mysql_error());
+                            $tickets = mysql_query("SELECT ticketid,name,message,comment,completed FROM gm_tickets ORDER BY ticketid DESC LIMIT 8");
+                            while ($tickget = mysql_fetch_assoc($tickets)) {
+							echo'
+			<li><div class="todo-check"></div><div class="todo-title">' . $tickget['name'] . '
+            <span>' . $tickget['message'] . '</span></div></li>
+							';
+							}
+							?>
+			<!-- <li class="done"> -->
+          </ul>
+        </div>
+      </div>
 	  <!-- Vote Section -->
 	  <div id="tb-box" class="box g7 row3">
         <table id="dash-tb" class="table">
@@ -255,11 +275,9 @@ $os = $k;
           </tbody>
         </table>
       </div>
-	   <!--CALENDAR-->
-	  <div class="box cal-box row3">
-        <div id="calendar"></div>
+	  <div id="grid-cont" class="full">
+        <div class="box g16"><span><center>All rights reserved. | Powered by: <a style="color: #CE9109;" href="http://aquaflame.org">AquaFlame CMS</a></center></span></div>
       </div>
-	  
 	</div><!--END MAIN CONTENT-->
     <!--MODAL WINDOWS-->
 

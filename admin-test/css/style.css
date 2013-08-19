@@ -636,6 +636,46 @@ body {
 #support-tickets.row1 li {
   height: 42px;
 }
+/* SUPPORT TICKETS 2*/
+#support-tickets2 li {
+  height: 41px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  line-height: 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  -webkit-transition: height 0.3s ease-in-out, background-color 0.1s linear;
+  -moz-transition: height 0.3s ease-in-out, background-color 0.1s linear;
+}
+#support-tickets2 li:last-of-type {
+  border-bottom: 0;
+}
+#support-tickets2 li:not(.expanded):hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+#support-tickets2 li.expanded {
+  background-color: rgba(0, 0, 0, 0.08);
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent) !important;
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent) !important;
+}
+#support-tickets2 li > span {
+  position: absolute;
+  top: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#support-tickets2 .badge {
+  width: 60px;
+  height: 19px;
+  font-size: 10px;
+  position: absolute;
+  top: 11px !important;
+  right: 100px;
+}
+#support-tickets2.row1 li {
+  height: 42px;
+}
 .support-name {
   left: 0;
   right: 160px;
@@ -648,6 +688,14 @@ body {
   text-align: right;
 }
 .support-msg {
+  width: 100%;
+  float: left;
+  margin-top: 36px;
+  line-height: 1.4;
+  padding: 10px;
+  cursor: default;
+}
+.support-msg2 {
   width: 100%;
   float: left;
   margin-top: 36px;
