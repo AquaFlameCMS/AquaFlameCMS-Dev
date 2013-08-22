@@ -506,22 +506,22 @@ $os = $k;
         }
       });
     };
-    $.fn.calEvents = function() {
-      var calDay = $('.gldp-default').find('.gldp-default-day');
-      $(calDay).eq(0).addClass('has-ev').children('div')
-        .append('<span class="cal-event-marker imp"></span>')
-        .insertEvent('Payday. Cha-ching.', '8:00 AM');
-      $(calDay).eq(3).addClass('has-ev').children('div')
-        .append('<span class="cal-event-marker"></span>')
-        .insertEvent('Conference. Yay!', '10:00 AM');
-      $(calDay).eq(10).addClass('has-ev').children('div')
-        .append('<span class="cal-event-marker"></span>')
-        .insertEvent('Jury duty. Meh.', '13:30 PM');
-      $(calDay).eq(18).addClass('has-ev').children('div')
-        .append('<span class="cal-event-marker imp"></span>')
-        .insertEvent('Get car serviced.', '14:00 PM');
-      $.fn.calShowEv();
-    };
+    //$.fn.calEvents = function() {
+    //  var calDay = $('.gldp-default').find('.gldp-default-day');
+    // $(calDay).eq(0).addClass('has-ev').children('div')
+    //    .append('<span class="cal-event-marker imp"></span>')
+    //    .insertEvent('Payday. Cha-ching.', '8:00 AM');
+    //  $(calDay).eq(3).addClass('has-ev').children('div')
+    //    .append('<span class="cal-event-marker"></span>')
+    //    .insertEvent('Conference. Yay!', '10:00 AM');
+    //  $(calDay).eq(10).addClass('has-ev').children('div')
+    //    .append('<span class="cal-event-marker"></span>')
+    //    .insertEvent('Jury duty. Meh.', '13:30 PM');
+    //  $(calDay).eq(18).addClass('has-ev').children('div')
+    //    .append('<span class="cal-event-marker imp"></span>')
+    //    .insertEvent('Get car serviced.', '14:00 PM');
+    //  $.fn.calShowEv();
+    //};
 
     // FLUID LAYOUT
 
