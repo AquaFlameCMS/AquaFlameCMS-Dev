@@ -100,6 +100,9 @@ if ($login['gmlevel'] < 3) {
           <button id="mng-usr" class="black has-icon"><span class="icon">C</span>Manage users</button>
         </div>
       </div>
+	  <div id="chart-box" class="box g6 row1"> <!--FLOT CHART-->
+        <div id="front-chart" class="chart"></div>
+      </div>
 <?php
 $agent = $_SERVER['HTTP_USER_AGENT']; 
 $browserArray = array(
@@ -189,47 +192,68 @@ $os = $k;
           <div id="bk-off"></div>
         </ul>
       </div>
-	<div id="grid-cont" class="full">
-        <div class="box g8"><span>News</span></div>
-        <div class="box g8"><span>Forum Posts</span></div>
-      </div>
 	<!-- News Section -->
-	<div id="support-tickets2" class="box g6 row2">
-        <div class="scroll">
-          <ul class="ul-grad scroll-cont">
-		   <?php
+	<div class="box g16">
+        <h2 class="box-ttl">LATEST NEWS</h2>
+        <div class="box-body no-pad datatable-cont">
+          <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><li class="">10</li><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div><div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
+            <thead>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">COMMENTS</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 0px;">FUNCTIONS</th></tr>
+            </thead>
+            
+          <tbody role="alert" aria-live="polite" aria-relevant="all">
+		  <?php
                             mysql_select_db($server_db) or die(mysql_error());
-                            $news = mysql_query("SELECT id,author,content,title,comments FROM news ORDER BY date DESC LIMIT 7");
+                            $news = mysql_query("SELECT id,author,content,title,comments FROM news ORDER BY date DESC LIMIT 5");
                             while ($fcheck2 = mysql_fetch_assoc($news)) {
-                                echo'
-			<li>
-              <span class="support-name">' . substr(strip_tags($fcheck2['title']), 0, 60) . '...</span>
-              <a href="deletenews.php?id=' . $new['id'] . '"><span class="badge red">DELETE</span></a><span class="support-usr">' . $fcheck2['author'] . '</span>
-              <p class="support-msg2">' . substr(strip_tags($fcheck2['content']), 0, 90) . '...<br><br><span>Comments: ' . $fcheck2['comments'] . '</span></p>
-            </li>';
-                  }
+                            echo'
+								<tr class="gradeX odd">
+								<td class=" sorting_1">' . substr(strip_tags($fcheck2['title']), 0, 36) . '...</td>
+								<td class=" ">' . $fcheck2['author'] . '</td>
+								<td class=" ">' . substr(strip_tags($fcheck2['content']), 0, 36) . '...</td>
+								<td class="center "> ' . $fcheck2['comments'] . '</td>
+								<td class="center "><a href="edtnews.php?id=' . $fcheck2['id'] . '">
+								<button class="btn-m has-icon">
+								<span class="icon">U</span>EDIT</button></a>
+								<a href="dltnews.php?id=' . $fcheck2['id'] . '">
+								<button class="btn-m red has-icon">
+								<span class="icon2">X</span>DELETE</button></a></td>
+								</tr>';
+								}
                   ?>
-          </ul>
-        
-      </div></div>
-	<!-- Forum Threads -->
-	<div id="support-tickets" class="box g6 row2">
-        <div class="scroll">
-          <ul class="ul-grad scroll-cont">
-		   <?php
+				</tbody></table><div class="dataTables_info" id="example_info">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_full_numbers" id="example_paginate"><a tabindex="0" class="first button" id="example_first">First</a><a tabindex="0" class="previous button" id="example_previous">%</a><span><a tabindex="0" class="button">1</a><a tabindex="0" class="button pressed">2</a><a tabindex="0" class="button">3</a></span><a tabindex="0" class="next button" id="example_next">(</a><a tabindex="0" class="last button" id="example_last">Last</a></div></div>
+        </div></div>
+		<!-- Forum Threads -->
+		<div class="box g16">
+        <h2 class="box-ttl">LATEST FORUM POSTS</h2>
+        <div class="box-body no-pad datatable-cont">
+          <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><li class="">10</li><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div><div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
+            <thead>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">COMMENTS</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 0px;">FUNCTIONS</th></tr>
+            </thead>
+            
+          <tbody role="alert" aria-live="polite" aria-relevant="all">
+		  <?php
                             mysql_select_db($server_db) or die(mysql_error());
-                            $forum = mysql_query("SELECT id,name,author,content,replies,views FROM forum_threads ORDER BY date DESC LIMIT 7");
+                            $forum = mysql_query("SELECT id,name,author,content,replies,views FROM forum_threads ORDER BY date DESC LIMIT 5");
                             while ($fcheck = mysql_fetch_assoc($forum)) {
                                 echo'
-			<li>
-              <span class="support-name">' . substr(strip_tags($fcheck['name']), 0, 60) . '...</span>
-              <a href="deletefor.php?id=' . $fcheck['id'] . '"><span class="badge red">DELETE</span></a><span class="support-usr">jDoe34</span>
-              <p class="support-msg">' . substr(strip_tags($fcheck['content']), 0, 90) . '...<br><br><span>Views: ' . $fcheck['views'] . '</span><br><span>Replies: ' . $fcheck['replies'] . '</span></p>
-            </li>';
-                  }
+								<tr class="gradeX odd">
+								<td class=" sorting_1">' . substr(strip_tags($fcheck['name']), 0, 36) . '...</td>
+								<td class=" ">' . $fcheck['author'] . '</td>
+								<td class=" ">' . substr(strip_tags($fcheck['content']), 0, 36) . '...</td>
+								<td class="center "> ' . $fcheck['replies'] . '</td>
+								<td class="center "><a href="edtnews.php?id=' . $fcheck['id'] . '">
+								<button class="btn-m has-icon">
+								<span class="icon">U</span>EDIT</button></a>
+								<a href="dltnews.php?id=' . $fcheck['id'] . '">
+								<button class="btn-m red has-icon">
+								<span class="icon2">X</span>DELETE</button></a></td>
+								</tr>';
+								}
                   ?>
-          </ul></div>
-      </div>
+				</tbody></table><div class="dataTables_info" id="example_info">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_full_numbers" id="example_paginate"><a tabindex="0" class="first button" id="example_first">First</a><a tabindex="0" class="previous button" id="example_previous">%</a><span><a tabindex="0" class="button">1</a><a tabindex="0" class="button pressed">2</a><a tabindex="0" class="button">3</a></span><a tabindex="0" class="next button" id="example_next">(</a><a tabindex="0" class="last button" id="example_last">Last</a></div></div>
+        </div></div>
 	  <!--CALENDAR-->
 	  <div class="box cal-box row3">
         <div id="calendar"></div>
