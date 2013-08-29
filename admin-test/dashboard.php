@@ -41,7 +41,7 @@ if ($login['gmlevel'] < 3) {
 	?>
     <div id="usr-panel">
       <div class="av-overlay"></div>
-      <img src="<?php echo $website['root']; ?>images/avatars/2d/tyrael.gif" id="usr-av">
+      <img src="<?php echo $website['root']; ?>images/avatars/2d/<?php echo $account_extra['avatar']; ?>" id="usr-av">
       <div id="usr-info">
         <span id="usr-name"><?php echo $account_extra['firstName']; ?></span><span id="usr-role">Administrator</span>
         <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>

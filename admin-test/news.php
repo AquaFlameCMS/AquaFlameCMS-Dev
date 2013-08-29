@@ -21,34 +21,12 @@ while ($elemento = readdir($dir)) {   //read content
     }
 }
 //End image pop-up
-
-if (isset($_POST['save'])) {
-    $title = mysql_real_escape_string($_POST['title']);
-    $image = mysql_real_escape_string($_POST['image']);
-    $content = $_POST['content'];
-    $content = trim($content);
-    $date = date("Y-m-d H:i:s", time());
-
-    $emptyContent = strip_tags($content);
-    if (empty($emptyContent)) {                          //Check if content is empty, title will never be empty
-        echo '<font color="red">You have to write something!</font>';
-    } else {
-        mysql_select_db($server_db);
-        $save_new = mysql_query("INSERT INTO news (author, date, content, title, image) VALUES ('" . $login['id'] . "','" . $date . "','" . addslashes($content) . "','" . $title . "','" . $image . "');") or die(mysql_error());
-        if ($save_new == true) {
-            echo '<div class="alert-page" align="center"> The new has been created successfully!</div>';
-            echo '<meta http-equiv="refresh" content="3;url=dashboard.php"/>';
-        } else {
-            echo '<div class="errors" align="center"><font color="red"> An ERROR has occured while saving the post in the database!</font></div>';
-        }
-    }
-}
 ?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>FA - Inputs</title>
+  <title>Flame.NET - News</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
   <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
   <!---CSS Files-->
@@ -82,7 +60,7 @@ if (isset($_POST['save'])) {
                 }
                 else if (action == 'blur') {
                     if (document.activeElement.name != 'pop') {
-                        vis.display = 'none';
+                        vis.display = 'true';
                     }
                 }
                 else
@@ -125,7 +103,7 @@ if (isset($_POST['save'])) {
 	?>
     <div id="usr-panel">
       <div class="av-overlay"></div>
-      <img src="<?php echo $website['root']; ?>images/avatars/2d/tyrael.gif" id="usr-av">
+      <img src="<?php echo $website['root']; ?>images/avatars/2d/<?php echo $account_extra['avatar']; ?>" id="usr-av">
       <div id="usr-info">
         <span id="usr-name"><?php echo $account_extra['firstName']; ?></span><span id="usr-role">Administrator</span>
         <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
@@ -184,7 +162,7 @@ if (isset($_POST['save'])) {
 		<div class="box g16"><span>Write News</span><span style="color: #CE9109;" >(Here you can write news for your website)</span></div>
 		</div>
       <!--WYSIWYG EDITOR-->
-
+<form method="post" action="">
       <div id="editor-box" class="box coll g8">
         <h2 class="box-ttl">News Editor</h2>
         <div class="box-body no-pad">
@@ -206,9 +184,10 @@ if (isset($_POST['save'])) {
 		<br>
 		<span class="label input g4">Image Preview</span>
 		<img class ="g4 box" src="" id="imgLoad" style="display:none;"/>
+    <div class="folder">
                                 <div  class="pop-image" id="pop" name="pop" onblur="pop('blur');" tabindex="1">
                                     <div class="note">
-                                        <table border=0>
+                                        <table border="0">
                                             <?php
                                             for ($i = 0; $i < $img_total; $i++) { //Shows images in table
                                                 $imagen = $img_array[$i];
@@ -223,10 +202,12 @@ if (isset($_POST['save'])) {
                                             ?>
                                         </table>
                                     </div>
+                                    </div>
       </div>
 	<button name="save" class="btn-m green has-icon">
     <span class="icon">J</span>Submit</button>
     </div>
+    </form>
 	</div>
 	</div><!--END MAIN CONTENT-->
 
@@ -313,5 +294,37 @@ if (isset($_POST['save'])) {
     $('#card-num').mask('9999-9999-9999-9999');
     $('#exp-inp').mask('99/99', {placeholder:'.'});
   </script>
+  <?php 
+    if (isset($_POST['save'])) {
+    $title = mysql_real_escape_string($_POST['title']);
+    $image = mysql_real_escape_string($_POST['image']);
+    $content = $_POST['content'];
+    $content = trim($content);
+    $date = date("Y-m-d H:i:s", time());
+
+    $emptyContent = strip_tags($content);
+    if (empty($emptyContent)) {                          //Check if content is empty, title will never be empty
+        echo '<div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+<div class="toast-title">Uh damn !</div>
+<div class="toast-message">You have to write something!</div>
+</div></div>';
+    } else {
+        mysql_select_db($server_db);
+        $save_new = mysql_query("INSERT INTO news (author, date, content, title, image) VALUES ('" . $login['id'] . "','" . $date . "','" . addslashes($content) . "','" . $title . "','" . $image . "');") or die(mysql_error());
+        if ($save_new == true) {
+            echo '<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+<div class="toast-title">Great !</div>
+<div class="toast-message">The news were published successfully.</div>
+</div></div>';
+            echo '<meta http-equiv="refresh" content="3;url=dashboard.php"/>';
+        } else {
+            echo '<div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+<div class="toast-title">Uh damn !</div>
+<div class="toast-message">An error has occured while saving the news in the database!</div>
+</div></div>';
+        }
+    }
+}
+  ?>
 </body>
 </html>
