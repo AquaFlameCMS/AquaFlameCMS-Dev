@@ -25,51 +25,48 @@ include("../configs.php");
       <div id="logo"></div>
       <h1>FLAME ADMIN - LOGIN</h1>
     </div>
-	<?php
-                    if (!isset($_SESSION['username'])) {
-                        if (isset($_POST['accountName'])) {
-                            $accountName = mysql_real_escape_string($_POST['accountName']);
-                            $accountPass = mysql_real_escape_string($_POST['password']);
-
-                            $sha_pass_hash = sha1(strtoupper($accountName) . ":" . strtoupper($accountPass));
-
-                            $db_setup = mysql_select_db($server_adb, $connection_setup) or die(mysql_error());
-                            $login_query = mysql_query("SELECT gmlevel,username,sha_pass_hash from account inner join account_access on account.id = account_access.id where username = '" . strtoupper($accountName) . "'");
-                            $login = mysql_fetch_assoc($login_query);
-                            //print_r($login);
-                            if (strtoupper($login['sha_pass_hash']) === strtoupper($sha_pass_hash) && $login['gmlevel'] >= 3) {
-                                ?>
-								<div id="body">
-									<div id="head">
-									<span class="icon">K</span>
-									<h2>Logging In</h2>
-									<meta http-equiv="refresh" content="2"/>
-									<br class="clear">
-									</div>
-									<span id="load">
-									<img src="img/load.png"><img src="img/spinner.png" id="spinner">
-									</span>
-								  </div>
-                                <?php
-                                $_SESSION['username'] = $accountName;
-                                echo '<meta http-equiv="refresh" content="2;"';
-                                echo 'Succesfully';
-                                ?>
-								<?php
-                            } else {
-                                ?>
-								<div id="body">
-								<div id="head">
-								<span class="icon">K</span>
-								<h2>Wrong Password or Account Name</h2>
-								<meta http-equiv="refresh" content="2"/>
-								<br class="clear">
-								</div>
-								<span id="load">
-								<img src="img/load.png"><img src="img/spinner.png" id="spinner">
-								</span>
-								</div>
-                                <!--<div class="loader"></div>-->
+	  <?php
+          if (!isset($_SESSION['username'])) {
+            $sessionid = $_SESSION['id'];
+            if (isset($_POST['accountName'])) {
+              $accountName = mysql_real_escape_string($_POST['accountName']);
+              $accountPass = mysql_real_escape_string($_POST['password']);
+              $sha_pass_hash = sha1(strtoupper($accountName) . ":" . strtoupper($accountPass));
+              $db_setup = mysql_select_db($server_adb, $connection_setup) or die(mysql_error());
+              $login_query = mysql_query("SELECT gmlevel,username,sha_pass_hash from account inner join account_access on account.id = account_access.id where username = '" . strtoupper($accountName) . "'");
+              $login = mysql_fetch_assoc($login_query);
+                //print_r($login);
+              if (strtoupper($login['sha_pass_hash']) === strtoupper($sha_pass_hash) && $login['gmlevel'] >= 3) {
+                $_SESSION['username'] = $accountName;
+    ?>
+                    
+    <div id="body">
+      <div id="head">
+        <span class="icon">K</span>
+        <h2>Logging in</h2>
+        <meta http-equiv="refresh" content="2"/>
+        <br class="clear">
+      </div>
+      <span id="load">
+        <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+      </span>
+    </div>
+            
+		<?php
+        } else {
+    ?>
+		<div id="body">
+			<div id="head">
+				<span class="icon">K</span>
+				<h2>Wrong Password or Account Name</h2>
+				<meta http-equiv="refresh" content="2"/>
+				<br class="clear">
+			</div>
+			<span id="load">
+			 <img src="img/load.png"><img src="img/spinner.png" id="spinner">
+			</span>
+		</div>
+                                
                                 <?php
                             }
                             ?>

@@ -35,6 +35,7 @@ if ($login['gmlevel'] < 3) {
     <!--USER PANEL-->
 	<?php 	$login_query = mysql_query("SELECT * FROM $server_adb.account WHERE username = '" . mysql_real_escape_string($_SESSION["username"]) . "'");
 			$login2 = mysql_fetch_assoc($login_query);
+      $joindate = date("d.m.Y ", strToTime($login2['joindate']));
 	
 			$uI = mysql_query("SELECT avatar FROM $server_db.users WHERE id = '" . $login2['id'] . "'");
 			$userInfo = mysql_fetch_assoc($uI);
@@ -59,7 +60,7 @@ if ($login['gmlevel'] < 3) {
         <li><a href="health.php"></a><span class="icon">S</span>Server Health</li>
         <li><a href="more.html"></a><span class="icon">N</span>More</li>
         <li data-modal="#usr-mod #mod-set" id="set-btn"><span class="icon">)</span>Settings</li>
-        <li id="logout"><a href="index.html"></a><span class="icon icon-grad">B</span>Log Out</li>
+        <li id="logout"><a href="logout.php"></a><span class="icon icon-grad">B</span>Log Out</li>
       </ul>
       <br class="clear">
     </div>
@@ -311,13 +312,13 @@ $os = $k;
         <div class="mod-body">
           <div id="mod-home" class="nav-item show">
             <div class="av-overlay"></div>
-            <img src="<?php echo $website['root']; ?>images/avatars/2d/tyrael.gif">
+            <img src="<?php echo $website['root']; ?>images/avatars/2d/<?php echo $account_extra['avatar']; ?>">
             <ul id="usr-det">
               <li><p><span>Name: </span><?php echo $account_extra['firstName'] . ' ' . $account_extra['lastName']; ?></p></li>
               <li><p><span>Role: </span>System Administrator</p></li>
-              <li><p><span>Contact: </span>admin@aquaflame.org</p></li>
-              <li><p><span>Member since: </span>12.06.2010</p></li>
-              <li><p>You have <strong>2</strong> notifications pending</p></li>
+              <li><p><span>Contact: </span><?php echo $login2['email']; ?></p></li>
+              <li><p><span>Member since: </span><?php echo $joindate; ?></p></li>
+              <li><p><span>Last IP: </span><?php echo $login2['last_ip']; ?></p></li>
             </ul>
           </div>
           <div id="mod-msg" class="mod-conv nav-item">
@@ -357,7 +358,7 @@ $os = $k;
           <div id="mod-set" class="nav-item">
             <input type="text" class="g4" placeholder="First name" value="<?php echo $account_extra['firstName']; ?>">
             <input type="text" class="g4" placeholder="Last name" value="<?php echo $account_extra['lastName']; ?>">
-            <input type="text" class="g8 last" placeholder="E-mail" value="admin@aquaflame.org">
+            <input type="text" class="g8 last" placeholder="E-mail" value="<?php echo $login2['email']; ?>">
             <button class="g8">Change Password</button>
             <button class="g8 last">Change Email</button>
             <div class="g8 cont">
