@@ -7,7 +7,7 @@ $check_query = mysql_query("SELECT account.id,gmlevel from account  inner join a
 $login = mysql_fetch_assoc($check_query);
 if ($login['gmlevel'] < 3) {
     die('
-<meta http-equiv="refresh" content="2;url=wrong.php"/>
+<meta http-equiv="refresh" content="0;url=wrong.php"/>
 		');
 }
 //To show the images pop-up
@@ -182,12 +182,14 @@ while ($elemento = readdir($dir)) {   //read content
         <input id="image" name="image" type="text" value="" class="reg" onfocus="pop('open');" />
         <br>
 		<span class="label input g4"></span>
-		<br>
-		<span class="label input g4">Image Preview</span>
-		<img class ="g4 box" src="" id="imgLoad" style="display:none;"/>
+		<span class="label input g6">Image Preview</span>
+		<img class ="g4 box" src="" id="imgLoad" style="display:none; margin-left: -95px;"/>
+
+
+    </div>
     <div class="folder">
                                 <div  class="pop-image" id="pop" name="pop" onblur="pop('blur');" tabindex="1">
-                                    <div class="note">
+
                                         <table border="0">
                                             <?php
                                             for ($i = 0; $i < $img_total; $i++) { //Shows images in table
@@ -196,21 +198,25 @@ while ($elemento = readdir($dir)) {   //read content
                                                 $nombre = substr($imagen, 0, strlen($imagen) - 11); //Gets the name from the database
                                                 echo "<tr>";
                                                 echo "<td><a href='javascript:;' name='pop' onclick=changeVal('" . $nombre . "');pop('close');>
-												<img src='$pathimagen' width='160px' border=0 onmouseover=preview('" . $pathimagen . "','on'); onmouseout=preview('" . $pathimagen . "','out');>
-												</a></td>"; //Click on it and the name appear on the text-box
+                        <img src='$pathimagen' width='160px' border=0 onmouseover=preview('" . $pathimagen . "','on'); onmouseout=preview('" . $pathimagen . "','out');>
+                        </a></td>"; //Click on it and the name appear on the text-box
                                                 echo "</tr>"; 
                                             }
                                             ?>
                                         </table>
-                                    </div>
+                                    
                                     </div>
       </div>
-	<button name="save" class="btn-m green has-icon">
+    <div class="box-body form">
+      <button name="save" class="btn-m green has-icon">
     <span class="icon">J</span>Submit</button>
-    </div>
+  </div>
     </form>
 	</div>
-	</div><!--END MAIN CONTENT-->
+	<div id="grid-cont" class="full">
+        <div class="box g16"><span><center>All rights reserved. | Powered by: <a style="color: #CE9109;" href="http://aquaflame.org">AquaFlame CMS</a></center></span></div>
+      </div>
+  </div><!--END MAIN CONTENT-->
 
     <!--MODAL WINDOWS-->
 
@@ -300,6 +306,7 @@ while ($elemento = readdir($dir)) {   //read content
         </div>
       </div>
     </div>
+    
   </div><!--END WRAPPER-->
 
   <span id="load">
@@ -327,6 +334,28 @@ while ($elemento = readdir($dir)) {   //read content
     $('#card-num').mask('9999-9999-9999-9999');
     $('#exp-inp').mask('99/99', {placeholder:'.'});
   </script>
+   <script language="JavaScript">
+    function P91Fadeout(id, geschwindigkeit) {
+  var fps = Math.round(geschwindigkeit / 100); 
+  var tmp = 0;
+    for(i = 100; i >= 0; i--) {
+        setTimeout("P91Fadeout_fade('" + id + "'," + i + ")", (tmp * fps));
+        tmp++;
+    }
+}
+function P91Fadeout_fade(id, pas) {
+  var heurix = document.getElementById(id).style;
+  if(pas > 0) {
+    heurix.opacity = (pas / 100);
+    heurix.MozOpacity = (pas / 100);
+    heurix.KhtmlOpacity = (pas / 100);
+    heurix.filter = "alpha(opacity=" + pas + ")"; 
+  } else {
+    heurix.display = "none";
+  }
+}
+window.setTimeout("P91Fadeout('toast-container', 2000)", 5000);
+</script>
   <?php 
     if (isset($_POST['save'])) {
     $title = mysql_real_escape_string($_POST['title']);
@@ -349,7 +378,7 @@ while ($elemento = readdir($dir)) {   //read content
 <div class="toast-title">Great !</div>
 <div class="toast-message">The news were published successfully.</div>
 </div></div>';
-            echo '<meta http-equiv="refresh" content="3;url=dashboard.php"/>';
+        
         } else {
             echo '<div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
 <div class="toast-title">Uh damn !</div>

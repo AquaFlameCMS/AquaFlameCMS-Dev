@@ -5,7 +5,7 @@ $check_query = mysql_query("SELECT gmlevel from account inner join account_acces
 $login = mysql_fetch_assoc($check_query);
 if ($login['gmlevel'] < 3) {
     die('
-<meta http-equiv="refresh" content="2;url=wrong.php"/>
+<meta http-equiv="refresh" content="0;url=wrong.php"/>
 		');
 }
 ?>
@@ -587,5 +587,27 @@ $os = $k;
     };
 
   </script>
+   <script language="JavaScript">
+    function P91Fadeout(id, geschwindigkeit) {
+  var fps = Math.round(geschwindigkeit / 100); 
+  var tmp = 0;
+    for(i = 100; i >= 0; i--) {
+        setTimeout("P91Fadeout_fade('" + id + "'," + i + ")", (tmp * fps));
+        tmp++;
+    }
+}
+function P91Fadeout_fade(id, pas) {
+  var heurix = document.getElementById(id).style;
+  if(pas > 0) {
+    heurix.opacity = (pas / 100);
+    heurix.MozOpacity = (pas / 100);
+    heurix.KhtmlOpacity = (pas / 100);
+    heurix.filter = "alpha(opacity=" + pas + ")"; 
+  } else {
+    heurix.display = "none";
+  }
+}
+window.setTimeout("P91Fadeout('toast-container', 2000)", 5000);
+</script>
 </body>
 </html>

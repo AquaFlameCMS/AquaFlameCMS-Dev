@@ -5,10 +5,9 @@ $check_query = mysql_query("SELECT gmlevel from account inner join account_acces
 $login = mysql_fetch_assoc($check_query);
 if ($login['gmlevel'] < 3) {
     die('
-<meta http-equiv="refresh" content="2;url=wrong.php"/>
+<meta http-equiv="refresh" content="0;url=wrong.php"/>
 		');
 }
-
 if (isset($_GET['sort']) == 'type') {    //Order by...
     $order = ' type ASC, ';
 } elseif (isset($_GET['sort']) == 'title') {
@@ -19,14 +18,17 @@ if (isset($_GET['sort']) == 'type') {    //Order by...
     $order = '';
 }
 //MEDIA TYPES VIEW **** Types: 0-video, 1-screen,2-wall,3-art,4-comic
-if (isset($_GET['type']) == '0' || isset($_GET['type']) == '1' || isset($_GET['type']) == '2' || isset($_GET['type']) == '3' || isset($_GET['type']) == '4') {
-    $type = " AND type = '" . isset($_GET['type']) . "' ";
+if (isset($_GET['type']) == '') {
+    $type = "";
 } else {
-    $type = ''; //If not defined type or type all then show all media types
+    $type = "AND type='";
+    $type .= $_GET['type'];
+    $type .= "'";
 }
 
 mysql_select_db($server_db) or die(mysql_error());
-$sql = mysql_query("SELECT * FROM media WHERE visible = '1' " . $type);
+$sql = mysql_query("SELECT * FROM media WHERE visible = '0' ".$type."");
+$sql2 = mysql_query("SELECT * FROM media WHERE visible = '1' ".$type."");
 
 //PAGINATION BEGIN
 $size = 10;
@@ -42,15 +44,16 @@ if (!isset($_GET['page']) || empty($_GET['page']) || $_GET['page'] < 1) {   //Mo
 }
 $start = ($page - 1) * $size;  //the first result to show
 //PAGINATION END
-
-$sql_string = "SELECT * FROM media WHERE visible = '1' " . $type . " ORDER BY " . $order . " date DESC LIMIT $start,$size";
+$sql_string = "SELECT * FROM media WHERE visible = '0' " .$type. " ORDER BY " . $order . " date DESC LIMIT $start,$size";
+$sql_string2 = "SELECT * FROM media WHERE visible = '1' " .$type. " ORDER BY " . $order . " date DESC LIMIT $start,$size";
 $sql_query = mysql_query($sql_string); //add limit for pagination work
+$sql_query2 = mysql_query($sql_string2);
 ?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Flame.NET - Dashboard</title>
+  <title>Flame.NET - Media</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
   <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
   <!---CSS Files-->
@@ -71,11 +74,13 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
                 objFieldImg = document.getElementById('fieldUpload');
                 if (num == '0') {
                     objVid.style.display = '';
+                    objFieldVid.style.display = '';
                     objFieldVid.required = 'required';
                     objImg.style.display = 'none';
                     objFieldImg.required = '';
                 } else {
                     objVid.style.display = 'none';
+                    objFieldVid.style.display  = 'none';
                     objFieldVid.required = '';
                     objImg.style.display = '';
                     objFieldImg.required = 'required';
@@ -90,7 +95,7 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
     <!--USER PANEL-->
 	<?php 	$login_query = mysql_query("SELECT * FROM $server_adb.account WHERE username = '" . mysql_real_escape_string($_SESSION["username"]) . "'");
 			$login2 = mysql_fetch_assoc($login_query);
-             $joindate = date("d.m.Y ", strToTime($login2['joindate']));
+            $joindate = date("d.m.Y ", strToTime($login2['joindate']));
 	
 			$uI = mysql_query("SELECT avatar FROM $server_db.users WHERE id = '" . $login2['id'] . "'");
 			$userInfo = mysql_fetch_assoc($uI);
@@ -123,9 +128,36 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
     <!--BEGIN MAIN CONTENT-->
 	<div id="content" class="dashboard-page">
 	<div class="box g16">
-        <h2 class="box-ttl">ADDED MEDIA</h2>					
+        <h2 class="box-ttl">UNAPPROVED MEDIA</h2>					
         <div class="box-body no-pad datatable-cont">
-          <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><li class="">10</li><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div><div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
+          <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><a href="?type=0" style="color: #999999;"><li class="">10</li></a><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div>
+          <div style="width: 25px;"></div>
+          <div id="example_length" class="dataTables_length">
+            Select 
+            <div class="drop select">
+              <select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;">
+                <option value="All">All</option>
+                <option value="Videos">Videos</option>
+                <option value="Screenshots">Screenshots</option>
+                <option value="Wallpaper">Wallpaper</option>
+                <option value="Artwork">Artwork</option>
+                <option value="Comics">Comics</option>
+              </select>
+
+              
+              <ul>
+                <a href="media.php" style="color: #999999;"><li class="sel">All</li></a>
+                <a href="?type=0" style="color: #999999;"><li class="">Videos</li></a>
+                <a href="?type=2" style="color: #999999;"><li class="">Screenshots</li></a>
+                <a href="?type=1" style="color: #999999;"><li class="">Wallpaper</li></a>
+                <a href="?type=3" style="color: #999999;"><li class="">Artwork</li></a>
+                <a href="?type=4" style="color: #999999;"><li class="">Comics</li></a>
+              </ul>
+              <span class="opt-sel" data-default-val="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="arrow">&amp;</span>
+            </div>
+          </div>
+          <div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
             <thead>
               <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 0px;">FUNCTIONS</th></tr>
             </thead>
@@ -154,9 +186,9 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
                                         echo 'Comic';
                                     }
                                     echo'</td>
-                                <td class="center "><a href="unpmed.php?id=' . $row['id'] . '">
-								<button class="btn-m orange has-icon-r">							
-								<span class="icon">&lt;</span>UNAPPROVE</button></a>
+                                <td class="center "><a href="med.php?action=add&id=' . $row['id'] . '">
+								<button class="btn-m green has-icon-r">							
+								<span class="icon">&lt;</span>APPROVE</button></a>
 								<a href="dltmed.php?id=' . $row['id'] . '">
 								<button class="btn-m red has-icon">
 								<span class="icon2">X</span>DELETE</button></a></td>
@@ -235,7 +267,7 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
                                     }
                                 } else {
                                     ?>
-									<div id="inputs" class="box g8">
+									<div id="inputs" class="box g6">
 									<h2 class="box-ttl"><?php echo $Media['SendMedia']; ?></h2>
 									<div class="box-body form">
                                     <p>&nbsp;</p>
@@ -245,29 +277,29 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
                                         </div>
                                         <form action="" enctype="multipart/form-data" method="post">
                                             <select name="type" id="type" class="input border-5 glow-shadow-2 form-disabled" style="width:150px" data-filter="column" data-column="0" onchange="changeType(this.selectedIndex)">
-                                                <option value="0" selected="selected"><?php echo $Media['Videos']; ?></option>
+                                                <option value="0" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $Media['Videos']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                                                 <option value="1"><?php echo $Media['Wallpapers']; ?></option>
                                                 <option value="2"><?php echo $Media['Screenshots']; ?></option>
                                                 <option value="3"><?php echo $Media['Artwork']; ?></option>
-                                                <option value="4"><?php echo $Media['Comics']; ?></option>
+                                                <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $Media['Comics']; ?>&nbsp;&nbsp;&nbsp;&nbsp;</option>
                                             </select>
 											<br><br><br><br>
                                             <span class="label input g4">Information</span>
 											<input type="text" class="inset g12" placeholder="<?php echo $Media['AllFildRequiered']; ?>">
 																					
                                             <p>&nbsp;</p><p>&nbsp;</p>
-                                            <table width="550" height="330">
+                                            <table class="g9">
                                                     <span class="label input g4">Title</span>
 													<input type="text" maxlength="40" name="title_form"  type="url" class="g12" placeholder="Enter the Title here..." required="required" >
                                                 <tr id="videoLnk">
-                                                    <span class="label input g4">Youtube Link</span>
+                                                    <span id="videoLnk" class="label input g4">Youtube Link</span>
                                                     <input id="fieldVideo" name="url_form" type="url" class="g12" placeholder="Enter the Youtube Video URL..." required="required" >
                                                 </tr>
                                                 <tr id="uploadImg" style="display:none;">
                                                     <td valign="top"><span class="label input g4"><?php echo $Media['File']; ?></span></td>
                                                     <td valign="top">
                                                         <input type="hidden" name="MAX_SIZE" value="2000000" />
-														<div class="file-sel g12">
+														<div class="file-sel g12" style="width: 150px; margin-left: 38px; margin-bottom: 25px;">
 														<input id="fieldUpload" type="file" name="file" class="file full"><input type="text" class="file-text full" value="Select a file...">
 														<span class="icon">,</span>
 														</div>
@@ -285,8 +317,83 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
 									<?php
                             }
                             ?>
+
+                                              <div id="inputs" class="box g10">
+                  <h2 class="box-ttl">APPROVED MEDIA</h2>
+<div class="box-body no-pad datatable-cont">
+          <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><a href="?type=0" style="color: #999999;"><li class="">10</li></a><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div>
+          <div style="width: 25px;"></div>
+          <div id="example_length" class="dataTables_length">
+            Select 
+            <div class="drop select">
+              <select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;">
+                <option value="All">All</option>
+                <option value="Videos">Videos</option>
+                <option value="Screenshots">Screenshots</option>
+                <option value="Wallpaper">Wallpaper</option>
+                <option value="Artwork">Artwork</option>
+                <option value="Comics">Comics</option>
+              </select>
+
+              
+              <ul>
+                <a href="media.php" style="color: #999999;"><li class="sel">All</li></a>
+                <a href="?type=0" style="color: #999999;"><li class="">Videos</li></a>
+                <a href="?type=2" style="color: #999999;"><li class="">Screenshots</li></a>
+                <a href="?type=1" style="color: #999999;"><li class="">Wallpaper</li></a>
+                <a href="?type=3" style="color: #999999;"><li class="">Artwork</li></a>
+                <a href="?type=4" style="color: #999999;"><li class="">Comics</li></a>
+              </ul>
+              <span class="opt-sel" data-default-val="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="arrow">&amp;</span>
+            </div>
+          </div>
+          <div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
+            <thead>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 200px;">FUNCTIONS</th></tr>
+            </thead>
+            
+          <tbody role="alert" aria-live="polite" aria-relevant="all">
+      <?php
+      
+                  while ($row2 = mysql_fetch_assoc($sql_query2)) {
+                                    $author2 = mysql_fetch_assoc(mysql_query("SELECT username FROM $server_adb.account WHERE id = '" . $row2['author'] . "'"));
+                                    echo'
+                <tr class="gradeX odd">
+                <td class=" sorting_1">' . $row2['title'] . '...</td>
+                <td class="center">' . $author2['username'] . ' (' . $row2['author'] . ')</td>
+                <td>' . strip_tags(substr($row2['description'], 0, 60)) . '...</td>            
+                <td class="center ">' . date('d-m-Y', strtotime($row2['date'])) . '</td>
+                <td class="center ">';
+                                    if ($row2['type'] == '0') {
+                                        echo 'Video';
+                                    } elseif ($row2['type'] == '1') {
+                                        echo 'Wallpaper';
+                                    } elseif ($row2['type'] == '2') {
+                                        echo 'Screenshot';
+                                    } elseif ($row2['type'] == '3') {
+                                        echo 'ArtWork';
+                                    } elseif ($row2['type'] == '4') {
+                                        echo 'Comic';
+                                    }
+                                    echo'</td>
+                                <td class="center "><a href="med.php?action=un&id=' . $row2['id'] . '">
+                <button class="btn-m orange has-icon-r" style="width: 95px; height: 30px;">             
+                <span class="icon" style="width: 15px;">&lt;</span>UNAPPROVE</button></a>
+                <a href="dltmed.php?id=' . $row2['id'] . '">
+                <button class="btn-m red has-icon" style="width: 75px; height: 30px;">
+                <span class="icon2" >X</span>DELETE</button></a></td>
+                </tr>';
+                }
+                  ?>
+        </tbody></table><div class="dataTables_info" id="example_info">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_full_numbers" id="example_paginate"><a tabindex="0" class="first button" id="example_first">First</a><a tabindex="0" class="previous button" id="example_previous">%</a><span><a tabindex="0" class="button">1</a><a tabindex="0" class="button pressed">2</a><a tabindex="0" class="button">3</a></span><a tabindex="0" class="next button" id="example_next">(</a><a tabindex="0" class="last button" id="example_last">Last</a></div></div>
+        </div>
+      </div>
 		
-		</div>
+		<div id="grid-cont" class="full">
+        <div class="box g16"><span><center>All rights reserved. | Powered by: <a style="color: #CE9109;" href="http://aquaflame.org">AquaFlame CMS</a></center></span></div>
+      </div>
+  </div>
 	
 	<!--END MAIN CONTENT-->
     <!--MODAL WINDOWS-->
@@ -572,5 +679,82 @@ $sql_query = mysql_query($sql_string); //add limit for pagination work
     };
 
   </script>
+  <script language="JavaScript">
+    function P91Fadeout(id, geschwindigkeit) {
+	var fps = Math.round(geschwindigkeit / 100); 
+	var tmp = 0;
+    for(i = 100; i >= 0; i--) {
+        setTimeout("P91Fadeout_fade('" + id + "'," + i + ")", (tmp * fps));
+        tmp++;
+    }
+}
+function P91Fadeout_fade(id, pas) {
+	var heurix = document.getElementById(id).style;
+	if(pas > 0) {
+		heurix.opacity = (pas / 100);
+		heurix.MozOpacity = (pas / 100);
+		heurix.KhtmlOpacity = (pas / 100);
+		heurix.filter = "alpha(opacity=" + pas + ")"; 
+	} else {
+		heurix.display = "none";
+	}
+}
+window.setTimeout("P91Fadeout('toast-container', 1000)", 3000);
+</script>
+  <?php 
+  if(isset($_GET['del']))
+  {
+ $del = $_GET['del'];
+ if($del == '2')
+ {
+ 	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+<div class="toast-title">Great !</div>
+<div class="toast-message">The Media were deleted successfully.</div>
+</div></div>';
+ }
+ else
+ {}
+  if($del == '1')
+ {
+ 	echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+<div class="toast-title">Uh damn !</div>
+<div class="toast-message">An error has occured while deleting the Media in the database!</div>
+</div></div> ';
+ }
+  else
+ {}
+}
+if(isset($_GET['med']))
+  {
+ $med = $_GET['med'];
+ if($med == '1')
+ {
+ 	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+<div class="toast-title">Great !</div>
+<div class="toast-message">The Media were approved successfully.</div>
+</div></div>';
+ }
+ else
+ {}
+  if($med == '2')
+ {
+ 	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+<div class="toast-title">Great !</div>
+<div class="toast-message">The Media were unapproved successfully.</div>
+</div></div>';
+ }
+  else
+ {}
+ if($med == '3')
+ {
+ 	echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+<div class="toast-title">Uh damn !</div>
+<div class="toast-message">An error has occured while approving/unapproving the Media in the database!</div>
+</div></div> ';
+ }
+  else
+ {}
+}
+  ?>
 </body>
 </html>
