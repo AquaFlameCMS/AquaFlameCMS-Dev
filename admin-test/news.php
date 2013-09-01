@@ -28,7 +28,7 @@ while ($elemento = readdir($dir)) {   //read content
   <meta charset="utf-8">
   <title>Flame.NET - News</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
-  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <link rel="shortcut icon" href="img/favicon.png">
   <!---CSS Files-->
   <link rel="stylesheet" href="css/core.css">
   <link rel="stylesheet" href="css/ui.css">

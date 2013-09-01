@@ -55,7 +55,7 @@ $sql_query2 = mysql_query($sql_string2);
   <meta charset="utf-8">
   <title>Flame.NET - Media</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
-  <link rel="shortcut icon" href="../wow/static/local-common/images/wow.png">
+  <link rel="shortcut icon" href="img/favicon.png">
   <!---CSS Files-->
   <link rel="stylesheet" href="css/core.css">
   <link rel="stylesheet" href="css/ui.css">
@@ -159,7 +159,7 @@ $sql_query2 = mysql_query($sql_string2);
           </div>
           <div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
             <thead>
-              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 0px;">FUNCTIONS</th></tr>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width:0px;">PREVIEW</th><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 0px;">FUNCTIONS</th></tr>
             </thead>
             
           <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -169,6 +169,7 @@ $sql_query2 = mysql_query($sql_string2);
                                     $author = mysql_fetch_assoc(mysql_query("SELECT username FROM $server_adb.account WHERE id = '" . $row['author'] . "'"));
                                     echo'
 								<tr class="gradeX odd">
+                <td class="preview"><a class="thumbnail" href="#thumb"><img src="../images/wallpapers/'.$row['id_url'].'" width="100px" height="25px"><span><img src="../images/wallpapers/'.$row['id_url'].'" width="1000px;" height="450px;"></span></a></td>
 								<td class=" sorting_1">' . $row['title'] . '...</td>
 								<td class="center">' . $author['username'] . ' (' . $row['author'] . ')</td>
 								<td>' . strip_tags(substr($row['description'], 0, 60)) . '...</td>						
@@ -189,7 +190,7 @@ $sql_query2 = mysql_query($sql_string2);
                                 <td class="center "><a href="med.php?action=add&id=' . $row['id'] . '">
 								<button class="btn-m green has-icon-r">							
 								<span class="icon">&lt;</span>APPROVE</button></a>
-								<a href="dltmed.php?id=' . $row['id'] . '">
+								<a href="med.php?action=del&id=' . $row['id'] . '">
 								<button class="btn-m red has-icon">
 								<span class="icon2">X</span>DELETE</button></a></td>
 								</tr>';
@@ -285,7 +286,8 @@ $sql_query2 = mysql_query($sql_string2);
                                             </select>
 											<br><br><br><br>
                                             <span class="label input g4">Information</span>
-											<input type="text" class="inset g12" placeholder="<?php echo $Media['AllFildRequiered']; ?>">
+                                            <br>
+											<p class="inset g12"><?php echo $Media['AllFildRequiered']; ?></p>
 																					
                                             <p>&nbsp;</p><p>&nbsp;</p>
                                             <table class="g9">
@@ -350,7 +352,7 @@ $sql_query2 = mysql_query($sql_string2);
           </div>
           <div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
             <thead>
-              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 200px;">FUNCTIONS</th></tr>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">PREVIEW</th><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 200px;">FUNCTIONS</th></tr>
             </thead>
             
           <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -360,9 +362,10 @@ $sql_query2 = mysql_query($sql_string2);
                                     $author2 = mysql_fetch_assoc(mysql_query("SELECT username FROM $server_adb.account WHERE id = '" . $row2['author'] . "'"));
                                     echo'
                 <tr class="gradeX odd">
+                <td class="preview"><a class="thumbnail" href="#thumb"><img src="../images/wallpapers/'.$row2['id_url'].'" width="100px" height="25px"><span><img src="../images/wallpapers/'.$row2['id_url'].'" width="750px" height="400px"><br></span></a></td>
                 <td class=" sorting_1">' . $row2['title'] . '...</td>
                 <td class="center">' . $author2['username'] . ' (' . $row2['author'] . ')</td>
-                <td>' . strip_tags(substr($row2['description'], 0, 60)) . '...</td>            
+                <td>' . strip_tags(substr($row2['description'], 0, 40)) . '...</td>            
                 <td class="center ">' . date('d-m-Y', strtotime($row2['date'])) . '</td>
                 <td class="center ">';
                                     if ($row2['type'] == '0') {
@@ -380,7 +383,7 @@ $sql_query2 = mysql_query($sql_string2);
                                 <td class="center "><a href="med.php?action=un&id=' . $row2['id'] . '">
                 <button class="btn-m orange has-icon-r" style="width: 95px; height: 30px;">             
                 <span class="icon" style="width: 15px;">&lt;</span>UNAPPROVE</button></a>
-                <a href="dltmed.php?id=' . $row2['id'] . '">
+                <a href="med.php?action=del&id=' . $row2['id'] . '">
                 <button class="btn-m red has-icon" style="width: 75px; height: 30px;">
                 <span class="icon2" >X</span>DELETE</button></a></td>
                 </tr>';
@@ -702,28 +705,6 @@ function P91Fadeout_fade(id, pas) {
 window.setTimeout("P91Fadeout('toast-container', 1000)", 3000);
 </script>
   <?php 
-  if(isset($_GET['del']))
-  {
- $del = $_GET['del'];
- if($del == '2')
- {
- 	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
-<div class="toast-title">Great !</div>
-<div class="toast-message">The Media were deleted successfully.</div>
-</div></div>';
- }
- else
- {}
-  if($del == '1')
- {
- 	echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
-<div class="toast-title">Uh damn !</div>
-<div class="toast-message">An error has occured while deleting the Media in the database!</div>
-</div></div> ';
- }
-  else
- {}
-}
 if(isset($_GET['med']))
   {
  $med = $_GET['med'];
@@ -745,11 +726,20 @@ if(isset($_GET['med']))
  }
   else
  {}
- if($med == '3')
+if($med == '3')
+ {
+  echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+<div class="toast-title">Great !</div>
+<div class="toast-message">The Media were deleted successfully.</div>
+</div></div>';
+ }
+ else
+ {}
+ if($med == '4')
  {
  	echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
 <div class="toast-title">Uh damn !</div>
-<div class="toast-message">An error has occured while approving/unapproving the Media in the database!</div>
+<div class="toast-message">An error has occured while approving, unapproving or deleting the Media in the database!</div>
 </div></div> ';
  }
   else
