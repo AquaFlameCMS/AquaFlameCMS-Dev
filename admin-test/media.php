@@ -187,10 +187,10 @@ $sql_query2 = mysql_query($sql_string2);
                                         echo 'Comic';
                                     }
                                     echo'</td>
-                                <td class="center "><a href="med.php?action=add&id=' . $row['id'] . '">
+                                <td class="center "><a href="action.php?action=add&id=' . $row['id'] . '">
 								<button class="btn-m green has-icon-r">							
 								<span class="icon">&lt;</span>APPROVE</button></a>
-								<a href="med.php?action=del&id=' . $row['id'] . '">
+								<a href="action.php?action=del&id=' . $row['id'] . '">
 								<button class="btn-m red has-icon">
 								<span class="icon2">X</span>DELETE</button></a></td>
 								</tr>';
@@ -380,10 +380,10 @@ $sql_query2 = mysql_query($sql_string2);
                                         echo 'Comic';
                                     }
                                     echo'</td>
-                                <td class="center "><a href="med.php?action=un&id=' . $row2['id'] . '">
+                                <td class="center "><a href="action.php?action=un&id=' . $row2['id'] . '">
                 <button class="btn-m orange has-icon-r" style="width: 95px; height: 30px;">             
                 <span class="icon" style="width: 15px;">&lt;</span>UNAPPROVE</button></a>
-                <a href="med.php?action=del&id=' . $row2['id'] . '">
+                <a href="action.php?action=del&id=' . $row2['id'] . '">
                 <button class="btn-m red has-icon" style="width: 75px; height: 30px;">
                 <span class="icon2" >X</span>DELETE</button></a></td>
                 </tr>';
@@ -705,10 +705,10 @@ function P91Fadeout_fade(id, pas) {
 window.setTimeout("P91Fadeout('toast-container', 1000)", 3000);
 </script>
   <?php 
-if(isset($_GET['med']))
+if(isset($_GET['act']))
   {
- $med = $_GET['med'];
- if($med == '1')
+ $act = $_GET['act'];
+ if($act == '1')
  {
  	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
 <div class="toast-title">Great !</div>
@@ -717,7 +717,7 @@ if(isset($_GET['med']))
  }
  else
  {}
-  if($med == '2')
+  if($act == '2')
  {
  	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
 <div class="toast-title">Great !</div>
@@ -726,7 +726,7 @@ if(isset($_GET['med']))
  }
   else
  {}
-if($med == '3')
+if($act == '3')
  {
   echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
 <div class="toast-title">Great !</div>
@@ -735,7 +735,7 @@ if($med == '3')
  }
  else
  {}
- if($med == '4')
+ if($act == '4')
  {
  	echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
 <div class="toast-title">Uh damn !</div>
