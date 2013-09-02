@@ -148,10 +148,10 @@ while ($elemento = readdir($dir)) {   //read content
 								<td class=" ">' . $fcheck2['author'] . '</td>
 								<td class=" ">' . substr(strip_tags($fcheck2['content']), 0, 36) . '...</td>
 								<td class="center "> ' . $fcheck2['comments'] . '</td>
-								<td class="center "><a href="edtnews.php?id=' . $fcheck2['id'] . '">
+								<td class="center "><a href="action.php?action=nedit&id=' . $fcheck2['id'] . '">
 								<button class="btn-m has-icon">
 								<span class="icon">U</span>EDIT</button></a>
-								<a href="dltnews.php?id=' . $fcheck2['id'] . '">
+								<a href="action.php?action=ndel&id=' . $fcheck2['id'] . '">
 								<button class="btn-m red has-icon">
 								<span class="icon2">X</span>DELETE</button></a></td>
 								</tr>';
@@ -386,6 +386,30 @@ window.setTimeout("P91Fadeout('toast-container', 2000)", 5000);
 </div></div>';
         }
     }
+}
+  ?>
+   <?php 
+if(isset($_GET['act']))
+  {
+ $act = $_GET['act'];
+ if($act == '1')
+ {
+  echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+<div class="toast-title">Great !</div>
+<div class="toast-message">The News posts were deleted successfully.</div>
+</div></div>';
+ }
+ else
+ {}
+ if($act == '4')
+ {
+  echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+<div class="toast-title">Uh damn !</div>
+<div class="toast-message">An error has occured while deleting the News in the database!</div>
+</div></div> ';
+ }
+  else
+ {}
 }
   ?>
 </body>
