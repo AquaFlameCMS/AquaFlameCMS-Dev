@@ -6,8 +6,10 @@ $login = mysql_fetch_assoc($check_query);
 if ($login['gmlevel'] < 3) {
     die('
 <meta http-equiv="refresh" content="0;url=wrong.php"/>
-		');
+        ');
 }
+
+
 if (isset($_GET['sort']) == 'type') {    //Order by...
     $order = ' type ASC, ';
 } elseif (isset($_GET['sort']) == 'title') {
@@ -17,7 +19,7 @@ if (isset($_GET['sort']) == 'type') {    //Order by...
 } else {
     $order = '';
 }
-//MEDIA TYPES VIEW **** Types: 0-video, 1-screen,2-wall,3-art,4-comic
+//MEDIA TYPES VIEW **** Types: 0-video, 1-screen,2-wall,3-art,4-comic,5-download
 if (isset($_GET['type']) == '') {
     $type = "";
 } else {
@@ -49,6 +51,13 @@ $sql_string2 = "SELECT * FROM media WHERE visible = '1' " .$type. " ORDER BY " .
 $sql_query = mysql_query($sql_string); //add limit for pagination work
 $sql_query2 = mysql_query($sql_string2);
 ?>
+<?php   $login_query = mysql_query("SELECT * FROM $server_adb.account WHERE username = '" . mysql_real_escape_string($_SESSION["username"]) . "'");
+      $login2 = mysql_fetch_assoc($login_query);
+      $joindate = date("d.m.Y ", strToTime($login2['joindate']));
+  
+      $uI = mysql_query("SELECT avatar FROM $server_db.users WHERE id = '" . $login2['id'] . "'");
+      $userInfo = mysql_fetch_assoc($uI);
+  ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -64,42 +73,38 @@ $sql_query2 = mysql_query($sql_string2);
   <script src="js/jquery.js"></script>
   <script src="js/jquery-ui.js"></script>
   <script src="js/inputs.js"></script>
-  <script src="js/flot.js"></script>
+  <script src="js/minicolors.js"></script>
+  <script src="js/cleditor.js"></script>
   <script src="js/functions.js"></script>
   <script type="text/javascript">
-            function changeType(num) {
-                objVid = document.getElementById('videoLnk');
-                objImg = document.getElementById('uploadImg');
-                objFieldVid = document.getElementById('fieldVideo');
-                objFieldImg = document.getElementById('fieldUpload');
-                if (num == '0') {
-                    objVid.style.display = '';
-                    objFieldVid.style.display = '';
-                    objFieldVid.required = 'required';
-                    objImg.style.display = 'none';
-                    objFieldImg.required = '';
-                } else {
-                    objVid.style.display = 'none';
-                    objFieldVid.style.display  = 'none';
-                    objFieldVid.required = '';
-                    objImg.style.display = '';
-                    objFieldImg.required = 'required';
-                }
-            }
-        </script>
+    function changeType(num) 
+    {
+      objVid = document.getElementById('videoLnk');
+      objImg = document.getElementById('uploadImg');
+      objFieldVid = document.getElementById('fieldVideo');
+      objFieldImg = document.getElementById('fieldUpload');
+      if (num == '0') 
+      {
+        objVid.style.display = '';
+        objFieldVid.style.display = '';
+        objFieldVid.required = 'required';
+        objImg.style.display = 'none';
+        objFieldImg.required = '';
+      } 
+      else 
+      {
+        objVid.style.display = 'none';
+        objFieldVid.style.display  = 'none';
+        objFieldVid.required = '';
+        objImg.style.display = '';
+        objFieldImg.required = 'required';
+      }
+    }
+               
+  </script>
 </head>
 <body>
-
   <div id="wrapper">
-
-    <!--USER PANEL-->
-	<?php 	$login_query = mysql_query("SELECT * FROM $server_adb.account WHERE username = '" . mysql_real_escape_string($_SESSION["username"]) . "'");
-			$login2 = mysql_fetch_assoc($login_query);
-            $joindate = date("d.m.Y ", strToTime($login2['joindate']));
-	
-			$uI = mysql_query("SELECT avatar FROM $server_db.users WHERE id = '" . $login2['id'] . "'");
-			$userInfo = mysql_fetch_assoc($uI);
-	?>
     <div id="usr-panel">
       <div class="av-overlay"></div>
       <img src="<?php echo $website['root']; ?>images/avatars/2d/<?php echo $account_extra['avatar']; ?>" id="usr-av">
@@ -108,13 +113,11 @@ $sql_query2 = mysql_query($sql_string2);
         <button id="usr-btn" class="orange" data-modal="#usr-mod #mod-home">User CP</button>
       </div>
     </div>
-
-    <!--NAVIGATION-->
-
     <div id="nav">
       <ul>
         <li><a href="dashboard.php"></a><span class="icon">H</span>Dashboard</li>
         <li><a href="news.php"></a><span class="icon">&lt;</span>News</li>
+        <li><a href="forum.php"></a><span class="icon">P</span>Forum</li>
         <li class="active"><span class="icon">F</span>Media</li>
         <li><a href="users.php"></a><span class="icon">G</span>Users</li>
         <li><a href="health.php"></a><span class="icon">S</span>Server Health</li>
@@ -124,27 +127,15 @@ $sql_query2 = mysql_query($sql_string2);
       </ul>
       <br class="clear">
     </div>
-
-    <!--BEGIN MAIN CONTENT-->
-	<div id="content" class="dashboard-page">
-	<div class="box g16">
-        <h2 class="box-ttl">UNAPPROVED MEDIA</h2>					
+    <div id="content" class="inputs-page">
+<div class="box g16">
+        <h2 class="box-ttl">UNAPPROVED MEDIA</h2>                   
         <div class="box-body no-pad datatable-cont">
           <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><a href="?type=0" style="color: #999999;"><li class="">10</li></a><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div>
           <div style="width: 25px;"></div>
           <div id="example_length" class="dataTables_length">
             Select 
-            <div class="drop select">
-              <select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;">
-                <option value="All">All</option>
-                <option value="Videos">Videos</option>
-                <option value="Screenshots">Screenshots</option>
-                <option value="Wallpaper">Wallpaper</option>
-                <option value="Artwork">Artwork</option>
-                <option value="Comics">Comics</option>
-              </select>
-
-              
+            <div class="drop select" style="width: 90px;">
               <ul>
                 <a href="media.php" style="color: #999999;"><li class="sel">All</li></a>
                 <a href="?type=0" style="color: #999999;"><li class="">Videos</li></a>
@@ -152,29 +143,29 @@ $sql_query2 = mysql_query($sql_string2);
                 <a href="?type=1" style="color: #999999;"><li class="">Wallpaper</li></a>
                 <a href="?type=3" style="color: #999999;"><li class="">Artwork</li></a>
                 <a href="?type=4" style="color: #999999;"><li class="">Comics</li></a>
+                <a href="?type=5" style="color: #999999;"><li class="">Downloads</li></a>
               </ul>
-              <span class="opt-sel" data-default-val="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="opt-sel" data-default-val="All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span class="arrow">&amp;</span>
             </div>
           </div>
           <div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
             <thead>
-              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width:0px;">PREVIEW</th><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 0px;">FUNCTIONS</th></tr>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 170px;">APPROVE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 140px;">DELETE</th></tr>
             </thead>
             
           <tbody role="alert" aria-live="polite" aria-relevant="all">
-		  <?php
-		  
-									while ($row = mysql_fetch_assoc($sql_query)) {
+          <?php
+          
+                                    while ($row = mysql_fetch_assoc($sql_query)) {
                                     $author = mysql_fetch_assoc(mysql_query("SELECT username FROM $server_adb.account WHERE id = '" . $row['author'] . "'"));
                                     echo'
-								<tr class="gradeX odd">
-                <td class="preview"><a class="thumbnail" href="#thumb"><img src="../images/wallpapers/'.$row['id_url'].'" width="100px" height="25px"><span><img src="../images/wallpapers/'.$row['id_url'].'" width="1000px;" height="450px;"></span></a></td>
-								<td class=" sorting_1">' . $row['title'] . '...</td>
-								<td class="center">' . $author['username'] . ' (' . $row['author'] . ')</td>
-								<td>' . strip_tags(substr($row['description'], 0, 60)) . '...</td>						
-								<td class="center ">' . date('d-m-Y', strtotime($row['date'])) . '</td>
-								<td class="center ">';
+                                <tr class="gradeX odd">
+                                <td class=" sorting_1">' . $row['title'] . '...</td>
+                                <td class="center">' . $author['username'] . '</td>
+                                <td>' . strip_tags(substr($row['description'], 0, 60)) . '...</td>                      
+                                <td class="center ">' . date('d-m-Y', strtotime($row['date'])) . '</td>
+                                <td class="center ">';
                                     if ($row['type'] == '0') {
                                         echo 'Video';
                                     } elseif ($row['type'] == '1') {
@@ -185,159 +176,75 @@ $sql_query2 = mysql_query($sql_string2);
                                         echo 'ArtWork';
                                     } elseif ($row['type'] == '4') {
                                         echo 'Comic';
+                                    } elseif ($row['type'] == '5') {
+                                        echo 'Download';
                                     }
                                     echo'</td>
-                                <td class="center "><a href="action.php?action=add&id=' . $row['id'] . '">
-								<button class="btn-m green has-icon-r">							
-								<span class="icon">&lt;</span>APPROVE</button></a>
-								<a href="action.php?action=del&id=' . $row['id'] . '">
-								<button class="btn-m red has-icon">
-								<span class="icon2">X</span>DELETE</button></a></td>
-								</tr>';
-								}
+                                <td class="center "><form method="post"><input type="hidden" name="actionid" value="'. $row['id'] .'"><a href="">
+                                <button class="btn-m green has-icon-r" name="approve">                         
+                                <span class="icon">&lt;</span>APPROVE</button></a>
+								<td class="center "><a href="">
+                                <button class="btn-m red has-icon" name="delete">
+                                <span class="icon2">X</span>DELETE</button></a></form></td>
+                                </tr>';
+                                }
                   ?>
-				</tbody></table><div class="dataTables_info" id="example_info">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_full_numbers" id="example_paginate"><a tabindex="0" class="first button" id="example_first">First</a><a tabindex="0" class="previous button" id="example_previous">%</a><span><a tabindex="0" class="button">1</a><a tabindex="0" class="button pressed">2</a><a tabindex="0" class="button">3</a></span><a tabindex="0" class="next button" id="example_next">(</a><a tabindex="0" class="last button" id="example_last">Last</a></div></div>
+                </tbody></table><div class="dataTables_info" id="example_info">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_full_numbers" id="example_paginate"><a tabindex="0" class="first button" id="example_first">First</a><a tabindex="0" class="previous button" id="example_previous">%</a><span><a tabindex="0" class="button">1</a><a tabindex="0" class="button pressed">2</a><a tabindex="0" class="button">3</a></span><a tabindex="0" class="next button" id="example_next">(</a><a tabindex="0" class="last button" id="example_last">Last</a></div></div>
         </div></div>
-		<?php
-                                if (isset($_POST['send'])) {
-
-                                    $title = mysql_real_escape_string($_POST['title_form']);
-                                    $description = mysql_real_escape_string($_POST['description_form']);
-                                    //types: 0 videos, 1 wallpapers, 2 screenshots, 3 artwork, 4 comic
-                                    if ($_POST['type'] == '0') { //Youtube video sent
-                                        $url = $_POST['url_form'];
-                                        $exp = "/v\/?=?([0-9A-Za-z-_]{11})/is";
-                                        preg_match_all($exp, $url, $matches);
-                                        $id = $matches[1][0];
-                                    } else {  //Image sent and upload to host
-                                        $url = $website['address'] . $website['root'] . 'images/wallpapers/';   //absolute route
-                                        $path = '../images/wallpapers/';                                   //relative route
-
-                                        if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "image/jpeg") || ($_FILES["file"]["type"] == "image/pjpeg") || ($_FILES["file"]["type"] == "image/bmp") || ($_FILES["file"]["type"] == "image/png")) && ($_FILES["file"]["size"] < $_POST['MAX_SIZE'])) {
-                                            //allowed extensions: jpg,jpeg,bmp,png,gif
-                                            if ($_FILES["file"]["error"] > 0) {
-                                                echo "Error: " . $_FILES["file"]["error"] . ". File couldn't be sent.<br />";
-                                            } else {
-                                                $file = pathinfo($_FILES["file"]["name"]);
-                                                $ext = '.' . $file['extension'];
-                                                $part = date('dmYHis', time());
-                                                $random = rand(10, 100);
-                                                $fileName = $_POST['type'] . $part . $random . $ext; //An unique media name for file storage
-                                                $url = $url . $fileName;  //The absolute route for links
-                                                $id = $fileName;       //The filename for php refers, unlink(), etc.
-
-                                                if (move_uploaded_file($_FILES["file"]["tmp_name"], $path . $fileName)) {
-                                                    $error = false;
-                                                }
-                                            }
-                                        } elseif (!($_FILES["file"]["size"] < $_POST['MAX_SIZE'])) {
-                                            echo '<div class="errors" align="center"><font color="red" size="6"><strong>Error</strong></font></p>';
-                                            echo '<p class="caption">The file size must be less than 2MB</p>';
-                                            echo'<a href="send_media.php"><button class="ui-button button1"  id="back" tabindex="1" /><span><span>' . $re['back'] . '</span></span></button></a></div>';
-                                            $error = true;
-                                        } else {
-                                            echo '<div class="errors" align="center"><font color="red" size="6"><strong>Error</strong></font></p>';
-                                            echo '<p class="caption">Invalid File Extension!</p>';
-                                            echo'<a href="send_media.php"><button class="ui-button button1"  id="back" tabindex="1" /><span><span>' . $re['back'] . '</span></span></button></a></div>';
-                                            $error = true;
-                                        }
-                                    }
-                                    if (!$error) {
-                                        mysql_select_db($server_adb);
-                                        $check_query = mysql_query("SELECT account.id,gmlevel from account  inner join account_access on account.id = account_access.id where username = '" . strtoupper($_SESSION['username']) . "'");
-                                        $login = mysql_fetch_assoc($check_query);
-
-                                        mysql_select_db($server_db);
-                                        $save_media = mysql_query("INSERT INTO media (author, id_url, title, description, link, type) VALUES ('" . $login['id'] . "','" . $id . "','" . $title . "','" . $description . "','" . $url . "','" . $_POST['type'] . "');");
-                                        mysql_close($connection_setup);
-
-                                        if ($save_media == true && $check_query == true) {
-                                            echo '<div class="alert-page" align="center">';
-                                            echo '<div class="alert-page-message success-page">
-      <p class="text-green title"><strong>' . $Media['SendCorrect'] . '</strong></p>
-      <p class="caption">' . $Media['SendSuccse'] . '</p>
-      <p class="caption"><a href="../account_man.php">' . $re['goPanel'] . '</a></p>
-      </div>';
-                                            echo '</div>';
-                                            echo '<meta http-equiv="refresh" content="4;url=../account_man.php"/>';
-                                        } else {
-                                            echo '<div class="errors" align="center"><font color="red" size="6"><strong>Error</strong></font></p>';
-                                            echo '<p class="caption">An error has ocurred, the media file could not be sent!</p>';
-                                            echo'<a href="send_media.php"><button class="ui-button button1"  id="back" tabindex="1" /><span><span>' . $re['back'] . '</span></span></button></a></div>';
-                                        }
-                                    }
-                                } else {
-                                    ?>
-									<div id="inputs" class="box g6">
-									<h2 class="box-ttl"><?php echo $Media['SendMedia']; ?></h2>
-									<div class="box-body form">
-                                    <p>&nbsp;</p>
-                                    <div id="page-content">
-                                        <div class="filter">
-                                            <label for="filter-status"><?php echo $Media['ChooseMediaSend']; ?></label>
-                                        </div>
-                                        <form action="" enctype="multipart/form-data" method="post">
-                                            <select name="type" id="type" class="input border-5 glow-shadow-2 form-disabled" style="width:150px" data-filter="column" data-column="0" onchange="changeType(this.selectedIndex)">
-                                                <option value="0" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $Media['Videos']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                                                <option value="1"><?php echo $Media['Wallpapers']; ?></option>
-                                                <option value="2"><?php echo $Media['Screenshots']; ?></option>
-                                                <option value="3"><?php echo $Media['Artwork']; ?></option>
-                                                <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $Media['Comics']; ?>&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                                            </select>
-											<br><br><br><br>
-                                            <span class="label input g4">Information</span>
-                                            <br>
-											<p class="inset g12"><?php echo $Media['AllFildRequiered']; ?></p>
-																					
-                                            <p>&nbsp;</p><p>&nbsp;</p>
-                                            <table class="g9">
-                                                    <span class="label input g4">Title</span>
-													<input type="text" maxlength="40" name="title_form"  type="url" class="g12" placeholder="Enter the Title here..." required="required" >
-                                                <tr id="videoLnk">
-                                                    <span id="videoLnk" class="label input g4">Youtube Link</span>
-                                                    <input id="fieldVideo" name="url_form" type="url" class="g12" placeholder="Enter the Youtube Video URL..." required="required" >
-                                                </tr>
-                                                <tr id="uploadImg" style="display:none;">
-                                                    <td valign="top"><span class="label input g4"><?php echo $Media['File']; ?></span></td>
-                                                    <td valign="top">
-                                                        <input type="hidden" name="MAX_SIZE" value="2000000" />
-														<div class="file-sel g12" style="width: 150px; margin-left: 38px; margin-bottom: 25px;">
-														<input id="fieldUpload" type="file" name="file" class="file full"><input type="text" class="file-text full" value="Select a file...">
-														<span class="icon">,</span>
-														</div>
-                                                    </td>
-                                                </tr>
-                                                    <span class="label input g4">Description</span>
-													<textarea type="text" name="description_form" class="g12" required="required" >You can put anything in me!</textarea>
-												<td><button type="submit" class="btn-m green" name="send">Submit Media</button></td>
-												<td align="right"><button align="right" type="reset" class="btn-m" class="ui-cancel ">Cancel</button></td>
-                                            </table>
-                                        </form>
-                                    </div>
-                                </div>
+      <div id="inputs" class="box g6">
+        <h2 class="box-ttl"><?php echo $Media['SendMedia']; ?></h2>
+        <p>&nbsp;</p>
+        <div id="page-content">
+          <div class="filter" style="padding-left: 10px;">
+            <label for="filter-status"><?php echo $Media['ChooseMediaSend']; ?></label>
+          </div>
+          <div class="box-body form" id="inputs">
+            <form action="" enctype="multipart/form-data" method="post">
+              <select name="type" id="type" class="input border-5 glow-shadow-2 form-disabled" style="width:150px" data-filter="column" data-column="0" onchange="changeType(this.selectedIndex)">
+                <option value="0" selected="selected"><?php echo $Media['Videos']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                <option value="1"><?php echo $Media['Wallpapers']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                <option value="2"><?php echo $Media['Screenshots']; ?>&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                <option value="3">Artwork&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                <option value="4"><?php echo $Media['Comics']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                <option value="5">Download&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+              </select>
+              <br>
+              <br>
+              <br>
+              <br>
+              <p>&nbsp;</p>
+              <span class="label input g4">Title</span>
+              <input type="text" maxlength="40" name="title_form"  type="url" class="g12" placeholder="Enter the Title here..." required="required" >
+              <div id="videoLnk">
+                <span id="videoLnk" class="label input g4">Youtube Link</span>
+                <input id="fieldVideo" name="url_form" type="url" class="g12" placeholder="Enter the Youtube Video URL..." required="required" />
+              </div>
+              <div id="uploadImg" style="display: none;">
+                <span class="label input g4">File Select</span>
+                <div class="file-sel g12">
+                  <input type="hidden" name="MAX_SIZE" value="20000000" />
+                  <input type="file" class="file full" id="fieldUpload" name="file">
+                  <span class="icon">,</span>
+                </div>
+              </div>
+              <span class="label input g4">Description</span>
+              <textarea type="text" name="description_form" class="g12" required="required" >You can put anything in me!</textarea>
+              <div style="float: right; padding-right: 10px;">
+              <button type="submit" class="btn-m green" name="send">Submit Media</button>
+              <button align="right" type="reset" class="btn-m" class="ui-cancel ">Cancel</button>
+            </div>
+            </form>
+          </div>
+        </div>
       </div>
-									<?php
-                            }
-                            ?>
-
-                                              <div id="inputs" class="box g10">
-                  <h2 class="box-ttl">APPROVED MEDIA</h2>
-<div class="box-body no-pad datatable-cont">
+      <div class="box g10">
+        <h2 class="box-ttl">APPROVED MEDIA</h2>
+            <div class="box-body no-pad datatable-cont">
           <div id="example_wrapper" class="dataTables_wrapper" role="grid"><div id="example_length" class="dataTables_length">Show <div class="drop select"><select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;"><option value="5" selected="selected">5</option><option value="10">10</option><option value="25">25</option></select><ul><li class="sel">5</li><a href="?type=0" style="color: #999999;"><li class="">10</li></a><li>25</li></ul><span class="opt-sel" data-default-val="5">5</span><span class="arrow">&amp;</span></div> entries</div>
           <div style="width: 25px;"></div>
           <div id="example_length" class="dataTables_length">
             Select 
-            <div class="drop select">
-              <select size="1" name="example_length" aria-controls="example" class="transformed" style="display: none;">
-                <option value="All">All</option>
-                <option value="Videos">Videos</option>
-                <option value="Screenshots">Screenshots</option>
-                <option value="Wallpaper">Wallpaper</option>
-                <option value="Artwork">Artwork</option>
-                <option value="Comics">Comics</option>
-              </select>
-
-              
+            <div class="drop select" style="width: 90px;">
               <ul>
                 <a href="media.php" style="color: #999999;"><li class="sel">All</li></a>
                 <a href="?type=0" style="color: #999999;"><li class="">Videos</li></a>
@@ -345,14 +252,15 @@ $sql_query2 = mysql_query($sql_string2);
                 <a href="?type=1" style="color: #999999;"><li class="">Wallpaper</li></a>
                 <a href="?type=3" style="color: #999999;"><li class="">Artwork</li></a>
                 <a href="?type=4" style="color: #999999;"><li class="">Comics</li></a>
+                <a href="?type=5" style="color: #999999;"><li class="">Downloads</li></a>
               </ul>
-              <span class="opt-sel" data-default-val="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="opt-sel" data-default-val="All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">All&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span class="arrow">&amp;</span>
             </div>
           </div>
           <div class="dataTables_filter" id="example_filter"><label>Search: <input type="text" aria-controls="example"></label></div><table class="display table dataTable" id="example" aria-describedby="example_info">
             <thead>
-              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">PREVIEW</th><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 200px;">FUNCTIONS</th></tr>
+              <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 0px;">TITLE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 0px;">AUTHOR</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 0px;">DESCRIPTION</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">DATE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 0px;">TYPE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 170px;">UNAPPROVE</th><th class="center sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 140px;">DELETE</th></tr>
             </thead>
             
           <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -362,9 +270,8 @@ $sql_query2 = mysql_query($sql_string2);
                                     $author2 = mysql_fetch_assoc(mysql_query("SELECT username FROM $server_adb.account WHERE id = '" . $row2['author'] . "'"));
                                     echo'
                 <tr class="gradeX odd">
-                <td class="preview"><a class="thumbnail" href="#thumb"><img src="../images/wallpapers/'.$row2['id_url'].'" width="100px" height="25px"><span><img src="../images/wallpapers/'.$row2['id_url'].'" width="750px" height="400px"><br></span></a></td>
                 <td class=" sorting_1">' . $row2['title'] . '...</td>
-                <td class="center">' . $author2['username'] . ' (' . $row2['author'] . ')</td>
+                <td class="center">' . $author2['username'] . '</td>
                 <td>' . strip_tags(substr($row2['description'], 0, 40)) . '...</td>            
                 <td class="center ">' . date('d-m-Y', strtotime($row2['date'])) . '</td>
                 <td class="center ">';
@@ -378,30 +285,36 @@ $sql_query2 = mysql_query($sql_string2);
                                         echo 'ArtWork';
                                     } elseif ($row2['type'] == '4') {
                                         echo 'Comic';
+                                    } elseif ($row2['type'] == '5') {
+                                        echo 'Download';
                                     }
                                     echo'</td>
-                                <td class="center "><a href="action.php?action=un&id=' . $row2['id'] . '">
-                <button class="btn-m orange has-icon-r" style="width: 95px; height: 30px;">             
-                <span class="icon" style="width: 15px;">&lt;</span>UNAPPROVE</button></a>
-                <a href="action.php?action=del&id=' . $row2['id'] . '">
-                <button class="btn-m red has-icon" style="width: 75px; height: 30px;">
-                <span class="icon2" >X</span>DELETE</button></a></td>
+                                <td class="center "><form method="post"><input type="hidden" name="actionid" value="'. $row2['id'] .'">
+								<a href="">
+                                <button class="btn-m orange has-icon-r" name="unapprove">
+								<span class="icon">&lt;</span>UNAPPROVE</button>
+								</a>
+                                </td>
+								<td class="center ">
+								<a href="">
+								<button class="btn-m red has-icon" name="delete">
+								<span class="icon">X</span>DELETE</button>
+								</a></form></td>
                 </tr>';
                 }
                   ?>
         </tbody></table><div class="dataTables_info" id="example_info">Showing 0 to 0 of 0 entries</div><div class="dataTables_paginate paging_full_numbers" id="example_paginate"><a tabindex="0" class="first button" id="example_first">First</a><a tabindex="0" class="previous button" id="example_previous">%</a><span><a tabindex="0" class="button">1</a><a tabindex="0" class="button pressed">2</a><a tabindex="0" class="button">3</a></span><a tabindex="0" class="next button" id="example_next">(</a><a tabindex="0" class="last button" id="example_last">Last</a></div></div>
         </div>
       </div>
-		
-		<div id="grid-cont" class="full">
+<div id="grid-cont" class="full">
         <div class="box g16"><span><center>All rights reserved. | Powered by: <a style="color: #CE9109;" href="http://aquaflame.org">AquaFlame CMS</a></center></span></div>
       </div>
-  </div>
-	
-	<!--END MAIN CONTENT-->
+                                    
+    </div><!--END MAIN CONTENT-->
+
     <!--MODAL WINDOWS-->
 
-    <div id="modal-ov">
+     <div id="modal-ov">
       <div class="modal" id="usr-mod">
         <div class="mod-ttl"><h2>USER CONTROL PANEL</h2></div>
         <div class="mod-body">
@@ -500,251 +413,200 @@ $sql_query2 = mysql_query($sql_string2);
     // LOAD FUNCTIONS
 
     $.fn.loadfns( function() {
-      $('#calendar').calEvents();
-      $('#ind-cont #nbill').removeClass('init');
-      if ($('#ind-cont').width() < 500) $('#ind-cont').find('.pie-desc').addClass('overlay');
-      $(window).resize( function() {
-        if ($('body').children('#toast-container').length < 1)
-          toastr.info('If content goes out of place when resizing, just hit refresh');
-      });
+      $.fn.inputgrp();
+      $('#wysiwyg').cleditor({ height: 326 });
+      $('#eula').nanoScroller();
+
+      if ($('#ads').width() < 800) $('#ads').nanoScroller();
     });
-
-    // CHART PLOTTING
-
-    var d1 = [[0,10], [2,7], [4,10], [6,16], [8,19], [10,23], [12,30], [14,35], [16,40], [18,46], [20,54]];
-        d2 = [[4,0], [8,7], [10,12], [14,14], [16,18], [18,16], [20,20]];
-    $.plot($("#front-chart"), [ { data: d1, color: "#f0a602" }, { data: d2, color: "#71a100" } ], {
-      series: {
-        lines: { show: true, fill: true },
-        points: { show: true },
-        resize: false },
-      xaxis: { ticks: false },
-      yaxis: { ticks: false },
-      grid: { borderWidth: 0, hoverable: true }
-    });
-
-    // USERS TABLE
-
-    $.fn.sortusers = function() {
-      $('#users-cont ul li .sort-handle').remove();
-      $('#users-cont ul li:not(".generated")').append('<div class="icon dark sort-handle">c</div>');
-      $('#users-cont ul').sortable({
-        placeholder: 'sort-placeholder',
-        handle: 'div.sort-handle',
-        containment: 'parent',
-        axis: 'y'
-      }).children('li:not(".generated")').disableSelection();
-    };
-    $.fn.sortusers();
-
-    $.fn.usersnr = function() {
-      var children = $('#users-cont .scroll ul').children('li').length;
-      if (children > 6) {
-        $('#users-cont .scroll').addClass('scroll-active').nanoScroller({ scroll: 'bottom' });
-      } else {
-        $('#users-cont .scroll').removeClass('scroll-active').nanoScroller({ stop: true });
-        $('#users-cont .scroll-cont').removeAttr('style');
-      };
-    };
-
-    $('#add-usr').click( function() {
-      $('#users-cont ul').append('<li class="generated"><span><input type="text" class="name-input" placeholder="Name *"></span><span class="users-role"><input type="text" class="role-input" placeholder="Role"></span><span class="icon cancel">X</span><span class="icon accept">=</span></li>');
-      $('.name-input').focus();
-      $.fn.usersnr();
-      $('.generated span.icon.accept').click( function() {
-        var nameval = $(this).parents('.generated').find('.name-input').val();
-            roleval = $(this).parents('.generated').find('.role-input').val();
-        if (nameval.length > 0) {
-          $(this).parents('.generated').html('<span>'+nameval+'</span><span class="users-role">'+roleval+'</span>').removeAttr('class');
-          $.fn.sortusers();
-          toastr.options = { timeOut: 4000 };
-          toastr.success('New user created successfully.','Hooray');
-        } else { $('.name-input').focus() };
-      });
-      $('.generated span.icon.cancel').click( function() {
-        $(this).parents('.generated').animate({ height:'0', opacity:'0'}, 400, function() {
-          $(this).remove();
-          $.fn.usersnr();
-        });
-      });
-    });
-
-    // DONUT INDICATORS
-
-    $('#pie-1').knob({ 'readOnly': true, 'bgColor':'rgba(255,255,255,0.04)','fgColor':'#d6960b' });
-    $('#pie-2').knob({ 'readOnly': true, 'bgColor':'rgba(255,255,255,0.04)','fgColor':'#658005' });
-
-    // SUPPORT TICKETS
-
-    $('#support-tickets').children('.scroll').nanoScroller();
-    $('#support-tickets .support-msg').append('<a href="editfor.php?id="<?php echo $fcheck["id"]; ?>"><span class="support-full">EDIT</span></a>');
-    $('#support-tickets2 .support-msg2').append('<a href="editnews.php?id="<?php echo $fcheck2["id"]; ?>"><span class="support-full">EDIT</span></a>');
-    
-	$('#support-tickets li').click( function() {
-      var supMsgHeight = $(this).children('.support-msg').height() + 56;
-            contHeight = $('#support-tickets').outerHeight();
-              liPosTop = $(this).position().top;
-      if ( $(this).hasClass('expanded') ) {
-        $(this).removeClass('expanded').removeAttr('style');
-      } else {
-        $(this).addClass('expanded').css('height', supMsgHeight)
-        .siblings('li.expanded').removeClass('expanded').removeAttr('style');
-      };
-      if ( liPosTop + supMsgHeight > contHeight ) {
-        $(this).parents('.scroll-cont').animate({ scrollTop: supMsgHeight }, 600);
-      } else if ( $(this).is(':nth-last-child(-n+3)') ) {
-        $(this).parents('.scroll-cont').animate({ scrollTop: contHeight + 41 }, 600);
-      };
-    }).children('p').click( function(e) { return false; });
-
-    // TODO LIST
-
-    $('#todo-list ul li').click( function() {
-      $(this).toggleClass('done');
-    });
-
-    // CALENDAR
-
-    $('#calendar').glDatePicker({ showAlways: true, position: "static" });
-    $.fn.insertEvent = function( content, time ) {
-      var trParent = $(this).parents('tr');
-             evDay = $(this).text();
-              time = time || '';
-      $('<tr id="day-'+evDay+'" class="cal-event"><td colspan="7">'+content+'<span>'+time+'</span></td></tr>').insertAfter(trParent);
-    };
-    $.fn.calShowEv = function() {
-      $('.gldp-default').find('.has-ev').click( function() {
-        var evDay = $(this).children('div').text();
-           evCont = $(this).parents('tr').siblings('#day-'+evDay+'');
-        if ( $(this).hasClass('selected') ) {
-          $(this).removeClass('selected');
-          $(evCont).removeClass('expanded');
-        } else {
-          $(this).parents('tbody').children('tr').find('td.selected').removeClass('selected');
-          $(this).addClass('selected');
-          $(evCont).addClass('expanded').siblings('.cal-event').removeClass('expanded');
-        }
-      });
-    };
-    //$.fn.calEvents = function() {
-    //  var calDay = $('.gldp-default').find('.gldp-default-day');
-    // $(calDay).eq(0).addClass('has-ev').children('div')
-    //    .append('<span class="cal-event-marker imp"></span>')
-    //    .insertEvent('Payday. Cha-ching.', '8:00 AM');
-    //  $(calDay).eq(3).addClass('has-ev').children('div')
-    //    .append('<span class="cal-event-marker"></span>')
-    //    .insertEvent('Conference. Yay!', '10:00 AM');
-    //  $(calDay).eq(10).addClass('has-ev').children('div')
-    //    .append('<span class="cal-event-marker"></span>')
-    //    .insertEvent('Jury duty. Meh.', '13:30 PM');
-    //  $(calDay).eq(18).addClass('has-ev').children('div')
-    //    .append('<span class="cal-event-marker imp"></span>')
-    //    .insertEvent('Get car serviced.', '14:00 PM');
-    //  $.fn.calShowEv();
-    //};
-
-    // FLUID LAYOUT
-
-    var docWidth = $(document).width();
-    if (docWidth < 1699 && docWidth > 1499) {
-      $('#content')
-        .children('#tb-box').removeClass('g7').addClass('g6');
-    } else if (docWidth < 1700 && docWidth > 1300) {
-      $('#content')
-        .children('#stats-cont').removeClass('g2').addClass('g4')
-        .siblings('#users-cont').removeClass('g4').addClass('g6')
-        .siblings('#chart-box').removeClass('row1').addClass('row2').insertAfter('#recent-conv');
-    } else if (docWidth < 1300 && docWidth > 1063) {
-      $('#content')
-        .children('#stats-cont').removeClass('g2').addClass('g3')
-        .siblings('#bk-mng').removeClass('g4').addClass('g7')
-        .siblings('#users-cont').removeClass('g4').addClass('g6').insertAfter('#bk-mng')
-        .siblings('#chart-box').removeClass('row1').addClass('row2').insertAfter('#users-cont')
-        .siblings('#todo-list').removeClass('g5').addClass('g7').insertAfter('#chart-box')
-        .siblings('#recent-conv').removeClass('g5').addClass('g9').insertAfter('#chart-box')
-        .siblings('#support-tickets').removeClass('g6').addClass('g10').insertAfter('#users-cont')
-        .siblings('#tb-box').insertAfter('#ind-cont');
-    } else if (docWidth < 1064 && docWidth > 799) {
-      $('#content')
-        .children('#ind-cont').insertAfter('#cal-box')
-        .siblings('#tb-box').insertAfter('#ind-cont')
-        .siblings('#chart-box').insertAfter('#users-cont').removeClass('row1').addClass('row2');
-    } else if (docWidth < 817 && docWidth > 680) {
-      $('#content')
-        .children('#bk-mng').insertAfter('#stats-cont');
-    } else if (docWidth < 641) {
-      $('#content')
-        .children('#users-cont').insertAfter('#stats-cont');
-    };
-    if (docWidth < 1081 && docWidth > 1064) {
-      $('#content')
-        .children('#chart-box').removeClass('row2').addClass('row1').insertAfter('#users-cont')
-    };
-
+    $.fn.inputs();
+    $('#sample-form').validate();
+    $('.datepicker').glDatePicker({ showAlways: false });
+    $('.nav-hz').scrollspy();
+    $('#age-inp').spinner({ min: 16, max: 99 });
+    $('#decimal').spinner({ step: 0.1101001101010011, numberFormat: "n" });
+    $('#card-num').mask('9999-9999-9999-9999');
+    $('#exp-inp').mask('99/99', {placeholder:'.'});
   </script>
-  <script language="JavaScript">
-    function P91Fadeout(id, geschwindigkeit) {
-	var fps = Math.round(geschwindigkeit / 100); 
-	var tmp = 0;
-    for(i = 100; i >= 0; i--) {
-        setTimeout("P91Fadeout_fade('" + id + "'," + i + ")", (tmp * fps));
-        tmp++;
-    }
-}
-function P91Fadeout_fade(id, pas) {
-	var heurix = document.getElementById(id).style;
-	if(pas > 0) {
-		heurix.opacity = (pas / 100);
-		heurix.MozOpacity = (pas / 100);
-		heurix.KhtmlOpacity = (pas / 100);
-		heurix.filter = "alpha(opacity=" + pas + ")"; 
-	} else {
-		heurix.display = "none";
-	}
-}
-window.setTimeout("P91Fadeout('toast-container', 1000)", 3000);
-</script>
   <?php 
-if(isset($_GET['act']))
-  {
- $act = $_GET['act'];
- if($act == '1')
- {
- 	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
-<div class="toast-title">Great !</div>
-<div class="toast-message">The Media were approved successfully.</div>
-</div></div>';
- }
- else
- {}
-  if($act == '2')
- {
- 	echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
-<div class="toast-title">Great !</div>
-<div class="toast-message">The Media were unapproved successfully.</div>
-</div></div>';
- }
-  else
- {}
-if($act == '3')
- {
-  echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
-<div class="toast-title">Great !</div>
-<div class="toast-message">The Media were deleted successfully.</div>
-</div></div>';
- }
- else
- {}
- if($act == '4')
- {
- 	echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
-<div class="toast-title">Uh damn !</div>
-<div class="toast-message">An error has occured while approving, unapproving or deleting the Media in the database!</div>
-</div></div> ';
- }
-  else
- {}
-}
+if (isset($_POST['approve'])) 
+        {
+            $check_media = mysql_query("SELECT * FROM media WHERE id = '".$_POST['actionid']."'");
+            $num_media = mysql_num_rows($check_media);
+            if($num_media >= 1)
+            {
+            $mysql_media = mysql_query("UPDATE media SET visible = 1 WHERE id = '".$_POST['actionid']."'");
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+                  <div class="toast-title">Great !</div>
+                  <div class="toast-message">The Media were approved successfully.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+            else
+            {
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                  <div class="toast-title">Uh damn !</div>
+                  <div class="toast-message">An error occured while approving the Media.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+        }
+        if (isset($_POST['unapprove'])) 
+        {
+            $check_media = mysql_query("SELECT * FROM media WHERE id = '".$_POST['actionid']."'");
+            $num_media = mysql_num_rows($check_media);
+            if($num_media >= 1)
+            {
+            $mysql_media = mysql_query("UPDATE media SET visible = 0 WHERE id = '".$_POST['actionid']."'");
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+                  <div class="toast-title">Great !</div>
+                  <div class="toast-message">The Media were unapproved successfully.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+            else
+            {
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                  <div class="toast-title">Uh damn !</div>
+                  <div class="toast-message">An error occured while unapproving the Media.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+        }
+        if (isset($_POST['delete'])) 
+        {
+            $check_media = mysql_query("SELECT * FROM media WHERE id = '".$_POST['actionid']."'");
+            $num_media = mysql_num_rows($check_media);
+            if($num_media >= 1)
+            {
+            $mysql_media = mysql_query("DELETE FROM media WHERE id = '".$_POST['actionid']."'");
+            $mysql_media2 = mysql_query("DELETE FROM media_comments WHERE id = '".$_POST['actionid']."'");
+            unlink('../images/wallpapers/'.$mysql_media2['id_url']);
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+                  <div class="toast-title">Great !</div>
+                  <div class="toast-message">The Media were deleted successfully.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+            else
+            {
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                  <div class="toast-title">Uh damn !</div>
+                  <div class="toast-message">An error occured while deleting the Media.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+        }
+        if (isset($_POST['send'])) 
+        {
+          $title = mysql_real_escape_string($_POST['title_form']);
+          $description = mysql_real_escape_string($_POST['description_form']);
+          //types: 0 videos, 1 wallpapers, 2 screenshots, 3 artwork, 4 comic, 5 DOWNLOAD
+          if ($_POST['type'] == '0') //Youtube video sent
+          { 
+            $url = $_POST['url_form'];
+            $exp = "/v\/?=?([0-9A-Za-z-_]{11})/is";
+            preg_match_all($exp, $url, $matches);
+            $id = $matches[1][0];
+          } 
+          elseif($_POST['type'] == '5')
+          {
+            $url = $website['address'] . $website['root'] . 'files/download/';   //absolute route
+            $path = '../files/download/';                                   //relative route
+            if ($_FILES["file"]["error"] > 0) 
+            {
+              echo "Error: " . $_FILES["file"]["error"] . ". File couldn't be sent.<br />";
+            } 
+            elseif (!($_FILES["file"]["size"] < $_POST['MAX_SIZE'])) 
+            {
+              echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                    <div class="toast-title">Uh damn !</div>
+                    <div class="toast-message">The file must be less than 2 MB.</div>
+                    </div></div>';
+              echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            } 
+            else 
+            {
+              $file = pathinfo($_FILES["file"]["name"]);
+              $ext = '.' . $file['extension'];
+              $part = date('dmYHis', time());
+              $random = rand(10, 100);
+              $fileName = $_POST['type'] . $part . $random . $ext; //An unique media name for file storage
+              $url = $url . $fileName;  //The absolute route for links
+              $id = $fileName;       //The filename for php refers, unlink(), etc.
+              if (move_uploaded_file($_FILES["file"]["tmp_name"], $path . $fileName)) 
+              {
+                $error = false;
+              }
+            }
+          }
+          else //Image sent and upload to host
+          {  
+            $url = $website['address'] . $website['root'] . 'images/wallpapers/';   //absolute route
+            $path = '../images/wallpapers/';                                   //relative route
+            if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "image/jpeg") || ($_FILES["file"]["type"] == "image/pjpeg") || ($_FILES["file"]["type"] == "image/bmp") || ($_FILES["file"]["type"] == "image/png")) && ($_FILES["file"]["size"] < $_POST['MAX_SIZE'])) 
+            {     //allowed extensions: jpg,jpeg,bmp,png,gif
+              if ($_FILES["file"]["error"] > 0) 
+              {
+                echo "Error: " . $_FILES["file"]["error"] . ". File couldn't be sent.<br />";
+              } 
+              else 
+              {
+                $file = pathinfo($_FILES["file"]["name"]);
+                $ext = '.' . $file['extension'];
+                $part = date('dmYHis', time());
+                $random = rand(10, 100);
+                $fileName = $_POST['type'] . $part . $random . $ext; //An unique media name for file storage
+                $url = $url . $fileName;  //The absolute route for links
+                $id = $fileName;       //The filename for php refers, unlink(), etc.
+
+                if (move_uploaded_file($_FILES["file"]["tmp_name"], $path . $fileName)) 
+                {
+                  $error = false;
+                }
+              }
+            } 
+            elseif (!($_FILES["file"]["size"] < $_POST['MAX_SIZE'])) 
+            {
+              echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                    <div class="toast-title">Uh damn !</div>
+                    <div class="toast-message">The file must be less than 2 MB.</div>
+                    </div></div>';
+              echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            } 
+          }
+          if (!$error) 
+          {
+            mysql_select_db($server_adb);
+            $check_query = mysql_query("SELECT account.id,gmlevel from account  inner join account_access on account.id = account_access.id where username = '" . strtoupper($_SESSION['username']) . "'");
+            $login = mysql_fetch_assoc($check_query);
+
+            mysql_select_db($server_db);
+            $save_media = mysql_query("INSERT INTO media (author, id_url, title, description, link, type) VALUES ('" . $login['id'] . "','" . $id . "','" . $title . "','" . $description . "','" . $url . "','" . $_POST['type'] . "');");
+            mysql_close($connection_setup);
+
+            if ($save_media == true && $check_query == true) 
+            {
+              echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+                    <div class="toast-title">Great !</div>
+                    <div class="toast-message">The Media were uploaded successfully.</div>
+                    </div></div>';
+              echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            } 
+            else 
+            {
+              echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                    <div class="toast-title">Uh damn !</div>
+                    <div class="toast-message">An error occured while saving the Media.</div>
+                    </div></div>';
+              echo '<meta http-equiv="refresh" content="1;url=media.php"/>';
+            }
+          }
+        }
+        else
+        {
+
+        }
   ?>
 </body>
 </html>

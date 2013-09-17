@@ -117,6 +117,7 @@ while ($elemento = readdir($dir)) {   //read content
       <ul>
         <li><a href="dashboard.php"></a><span class="icon">H</span>Dashboard</li>
         <li class="active"><span class="icon">&lt;</span>News</li>
+        <li><a href="forum.php"></a><span class="icon">P</span>Forum</li>
         <li><a href="media.php"></a><span class="icon">F</span>Media</li>
         <li><a href="users.php"></a><span class="icon">G</span>Users</li>
         <li><a href="health.php"></a><span class="icon">S</span>Server Health</li>
@@ -128,7 +129,78 @@ while ($elemento = readdir($dir)) {   //read content
     </div>
 
     <div id="content" class="inputs-page"><!--BEGIN MAIN CONTENT-->
+     <?php
+     
+     if (isset($_POST['edit'])) 
+     {
+          mysql_select_db($server_db) or die(mysql_error());
+                            $editnews = mysql_query("SELECT * FROM news WHERE id = '".$_POST['actionid']."'");
+                            $edit = mysql_fetch_assoc($editnews);
+      ?>
 
+      <!--WYSIWYG EDITOR-->
+<form method="post" action="">
+  <input type="hidden" name="editid" value="<?php echo $_POST['actionid']; ?>">
+      <div id="editor-box" class="box coll g8">
+        <h2 class="box-ttl">News Editor</h2>
+        <div class="box-body no-pad">
+          <textarea id="wysiwyg" name="content" class="no-bdrad no-mg full">
+            <span style=""><?php echo $edit['content'];?></span><br><br>
+          </textarea>
+        </div>
+      </div>
+    <div id="inputs" class="box g8">
+        <h2 class="box-ttl">Title & Image</h2>
+        <div class="box-body form">
+          <span class="label input g4">Title</span>
+          <input name="title" type="text" class="g12" value="<?php echo $edit['title'];?>" class="reg" onfocus="if (this.value == 'Enter Title') this.value = ''" onblur="if (this.value == '') this.value = '<?php echo $edit['title'];?>'" />      
+          
+        <span class="label input g4">Image select</span>
+        <input id="image" name="image" type="text" value="<?php echo $edit['image'];?>" class="reg" onfocus="pop('open');" />
+        <br>
+    <span class="label input g4"></span>
+    <span class="label input g6">Image Preview</span>
+    <img class ="g4 box" src="<?php echo '../news/'.$edit['image'].'.jpg'; ?>" id="imgLoad" style="display:true; margin-left: -95px;"/>
+
+
+    </div>
+    <div class="folder">
+                                <div  class="pop-image" id="pop" name="pop" onblur="pop('blur');" tabindex="1">
+
+                                        <table border="0">
+                                            <?php
+                                            for ($i = 0; $i < $img_total; $i++) { //Shows images in table
+                                                $imagen = $img_array[$i];
+                                                $pathimagen = $path . $imagen;
+                                                $nombre = substr($imagen, 0, strlen($imagen) - 11); //Gets the name from the database
+                                                echo "<tr>";
+                                                echo "<td><a href='javascript:;' name='pop' onclick=changeVal('" . $nombre . "');pop('close');>
+                        <img src='$pathimagen' width='160px' border=0 onmouseover=preview('" . $pathimagen . "','on'); onmouseout=preview('" . $pathimagen . "','out');>
+                        </a></td>"; //Click on it and the name appear on the text-box
+                                                echo "</tr>"; 
+                                            }
+                                            ?>
+                                        </table>
+                                    
+                                    </div>
+      </div>
+    <div class="box-body form">
+      <span class="label g4">Set Time to Current Time</span>
+          <div class="g12"><input type="checkbox" class="chbox" name="date" checked></div> 
+      <span class="label g4">Set me as Author</span>
+          <div class="g12"><input type="checkbox" class="chbox" name="author"></div> 
+          </p>
+      <button name="editnews" class="btn-m green has-icon">
+    <span class="icon">J</span>Submit</button>
+  </div>
+    </form>
+  </div>
+  <?php
+
+     }
+else
+{
+     ?>
       <div class="box g16">
         <h2 class="box-ttl">LATEST NEWS</h2>
         <div class="box-body no-pad datatable-cont">
@@ -148,12 +220,11 @@ while ($elemento = readdir($dir)) {   //read content
 								<td class=" ">' . $fcheck2['author'] . '</td>
 								<td class=" ">' . substr(strip_tags($fcheck2['content']), 0, 36) . '...</td>
 								<td class="center "> ' . $fcheck2['comments'] . '</td>
-								<td class="center "><a href="action.php?action=nedit&id=' . $fcheck2['id'] . '">
-								<button class="btn-m has-icon">
-								<span class="icon">U</span>EDIT</button></a>
-								<a href="action.php?action=ndel&id=' . $fcheck2['id'] . '">
-								<button class="btn-m red has-icon">
-								<span class="icon2">X</span>DELETE</button></a></td>
+								<td class="center "><form method="post"><input type="hidden" name="actionid" value="'. $fcheck2['id'] .'">
+								<button class="btn-m has-icon" name="edit">
+								<span class="icon">U</span>EDIT</button>
+								<button class="btn-m red has-icon" name="delete">
+								<span class="icon2">X</span>DELETE</button></form></td>
 								</tr>';
 								}
                   ?>
@@ -213,6 +284,9 @@ while ($elemento = readdir($dir)) {   //read content
   </div>
     </form>
 	</div>
+  <?php
+    }
+?>
 	<div id="grid-cont" class="full">
         <div class="box g16"><span><center>All rights reserved. | Powered by: <a style="color: #CE9109;" href="http://aquaflame.org">AquaFlame CMS</a></center></span></div>
       </div>
@@ -387,30 +461,69 @@ window.setTimeout("P91Fadeout('toast-container', 2000)", 5000);
         }
     }
 }
-  ?>
-   <?php 
-if(isset($_GET['act']))
-  {
- $act = $_GET['act'];
- if($act == '1')
- {
-  echo'<div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
-<div class="toast-title">Great !</div>
-<div class="toast-message">The News posts were deleted successfully.</div>
-</div></div>';
- }
- else
- {}
- if($act == '4')
- {
-  echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
-<div class="toast-title">Uh damn !</div>
-<div class="toast-message">An error has occured while deleting the News in the database!</div>
-</div></div> ';
- }
-  else
- {}
-}
+if (isset($_POST['delete'])) 
+        {
+            $check_news = mysql_query("SELECT * FROM news WHERE id = '".$_POST['actionid']."'");
+            $num_news = mysql_num_rows($check_news);
+            if($num_news >= 1)
+            {
+            $mysql_news = mysql_query("DELETE FROM news WHERE id = '".$_POST['actionid']."'");
+            $mysql_news2 = mysql_query("DELETE FROM news_comments WHERE id = '".$_POST['actionid']."'");
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+                  <div class="toast-title">Great !</div>
+                  <div class="toast-message">The News were deleted successfully.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=news.php"/>';
+            }
+            else
+            {
+            echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                  <div class="toast-title">Uh damn !</div>
+                  <div class="toast-message">An error occured while deleting the News.</div>
+                  </div></div>';
+            echo '<meta http-equiv="refresh" content="1;url=news.php"/>';
+            }
+        }
+if (isset($_POST['editnews'])){
+    $title = mysql_real_escape_string($_POST['title']);
+    $image = mysql_real_escape_string($_POST['image']);
+    $content = $_POST['content'];
+    $content = trim($content);
+    if ($_POST['author']){
+      $author = $login['id'];
+      }else{
+        $author = $edit['author'];
+      }
+    if ($_POST['date']){
+      $date = date ("Y-m-d H:i:s", time()); 
+    }else{
+      $date = $edit['date'];
+    }
+    $emptyContent = strip_tags($content);
+    if (empty($emptyContent)){                          //Check if content is empty, title will never be empty
+      echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                  <div class="toast-title">Uh damn !</div>
+                  <div class="toast-message">You have to write something.</div>
+                  </div></div>';
+    }else{
+      mysql_select_db($server_db);
+      $change_new = mysql_query("UPDATE news SET title = '".$title."' , author = '".$author."' , image = '".$image."', content = '".addslashes($content)."', date = '".$date."' WHERE id = '".$_POST['editid']."'");
+      if ($change_new == true){
+        echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-success" style="display: block;">
+                  <div class="toast-title">Great !</div>
+                  <div class="toast-message">The News were updated successfully.</div>
+                  </div></div>';
+                  echo '<meta http-equiv="refresh" content="1;url=news.php"/>';
+      }
+      else{
+        echo' <div id="toast-container" class="toast-top-full"><div class="toast toast-error" style="display: block;">
+                  <div class="toast-title">Uh damn !</div>
+                  <div class="toast-message">An Error occured while saving the News Post in the Database.</div>
+                  </div></div>';
+                  echo '<meta http-equiv="refresh" content="1;url=news.php"/>';
+      }
+    }  
+  }
   ?>
 </body>
 </html>
