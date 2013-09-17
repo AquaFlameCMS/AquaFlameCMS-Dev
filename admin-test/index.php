@@ -27,7 +27,7 @@ include("../configs.php");
     </div>
 	  <?php
           if (!isset($_SESSION['username'])) {
-            $sessionid = $_SESSION['id'];
+            $sessionid = @$_SESSION['id'];
             if (isset($_POST['accountName'])) {
               $accountName = mysql_real_escape_string($_POST['accountName']);
               $accountPass = mysql_real_escape_string($_POST['password']);

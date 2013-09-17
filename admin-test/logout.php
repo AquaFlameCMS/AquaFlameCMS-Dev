@@ -23,7 +23,7 @@
   <div id="wrapper">
     <div id="header">
       <div id="logo"></div>
-      <h1>FLAME ADMIN - Logout</h1>
+      <h1>FLAME ADMIN - LOGOUT</h1>
     </div>
 								<div id="body">
 									<div id="head">
